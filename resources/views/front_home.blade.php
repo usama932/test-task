@@ -99,16 +99,27 @@
                     </div>
                 </div>
             </div>
+            {{-- <div class="form-row">
+                @foreach($services as $service)
+                    <div class="form-group col-md-3">
+                        <div class="form-check">
+                            <label><input type="checkbox" name="service" value="{{$service->title}}"> {{ $service->title}}</label>
+                                
+                           
+                        </div>
+                    <div>
+                @endforeach
+            </div> --}}
             <div class="form-row">
                 @foreach($services as $service)
                     <div class="form-group col-md-3">
                         <div class="form-check">
-                            <input class="form-check-input" class="services" type="checkbox" name="services[]" value={{ $service->id}}>
+                            <input class="form-check-input" type="checkbox" value="{{$service->id}}" name="service">
                             <label class="form-check-label" for="flexCheckDefault">
-                                {{ $service->title}}
+                                {{$service->title}}
                             </label>
                         </div>
-                    <div>
+                    </div>
                 @endforeach
             </div>
             <div class="form-row">
@@ -144,7 +155,7 @@
                 @foreach($cleaning_types as $cleaning_type)
                     <div class="form-group col-md-3">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="clean_type_id">
+                            <input class="form-check-input" type="checkbox" value="{{$cleaning_type->id}}" name="clean_type_id">
                             <label class="form-check-label" for="flexCheckDefault">
                                 {{$cleaning_type->title}}
                             </label>
@@ -173,9 +184,6 @@
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
         <script>
-            $(".services").click(function() {
-            alert("test");
-            });
             $('#room_id,#bathroom_id').on('change',function(e){
                 var room_id =  $('#room_id').val();
                 var bathroom_id =   $('#bathroom_id').val();
