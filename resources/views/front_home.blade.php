@@ -21,7 +21,7 @@
     </head>
     <body class="antialiased">
         <div class="container  mt-5 mb-5"> 
-        <h1>Complete your booking.!
+        <h1>Complete your booking.
         </h1>
         <h2>Total Bill: <span id="totalbill"></span></h2>
         <form action="{{route('check_orders.store')}}" method="post">
@@ -155,7 +155,7 @@
                 @foreach($cleaning_types as $cleaning_type)
                     <div class="form-group col-md-3">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="{{$cleaning_type->id}}" name="clean_type_id">
+                            <input class="form-check-input" type="checkbox" value="{{$cleaning_type->id}}" name="clean_type_id[]">
                             <label class="form-check-label" for="flexCheckDefault">
                                 {{$cleaning_type->title}}
                             </label>
