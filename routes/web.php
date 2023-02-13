@@ -25,7 +25,7 @@ use App\Http\Controllers\HomeController;
 */
 Route::get('/', 'HomeController@index')->name('home');
 Route::resource('check_orders','HomeController')->except('index');
-Route::post('/get_price', 'HomeController@gettotalbill')->name('get.totalbill');
+
 Route::get('/login', function () {
     return view('auth.login');
 });

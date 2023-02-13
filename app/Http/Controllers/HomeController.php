@@ -15,7 +15,8 @@ use App\Models\CleaningType;
 use App\Models\User;
 use Auth;
 use Illuminate\Support\Facades\Session;
-
+use Stripe;
+use App\Models\OrderCleanType;
 
 class HomeController extends Controller
 {
@@ -37,18 +38,7 @@ class HomeController extends Controller
         return view('front_home' ,compact('rooms' ,'bathrooms' ,'services','discounts','cleaning_types','time_slots'));
     }
 
-    public function gettotalbill(Request $request){
-        $total_bill = 0;
-        if(!empty($request->room_id) &&  $request->room_id != null && $request->room_id != 0){
-            $room          = Room::where('id',$request->room_id)->first();
-            $total_bill = $total_bill + $room->price;
-        }
-        if(!empty($request->bathroom_id) &&  $request->bathroom_id != null && $request->bathroom_id != 0){
-            $bathroom      = Bathroom::where('id',$request->bathroom_id)->first();
-            $total_bill = $total_bill + $bathroom->price;
-        }
-        return $total_bill;
-    }
+
     public function create()
     {
         
@@ -62,9 +52,91 @@ class HomeController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
         
-       
+        // $this->validate($request, [
+        //     'first_name' => 'required|max:255',
+        //     'last_name' => 'required|max:255',
+        //     'email' => 'required',
+        //     'phone_number' => 'required',
+        //     'address' => 'required',
+        //     'state' => 'required',
+        //     'zipcode' => 'required',
+        //     'room_id' => 'required',
+        //     'totalbill' => 'required',
+           
+        // ]);
+        
+      
+        // $order  = Order::create([
+        //     'first_name' =>  $request->first_name,
+            
+        //     'last_name'          =>  $request->last_name,
+        //     'email'              =>  $request->email,
+        //     'phone_number'       =>  $request->phone_number,
+        //     'address'            =>  $request->address,
+        //     'zipcode'            =>  $request->zipcode,
+        //     'apt_suite_number'   => $request->apt_suite_number,
+        //     'city'               =>  $request->city,
+        //     'state'              =>  $request->state,
+        //     'room_id'            =>  $request->room_id,
+        //     'bathroom_id'        =>  $request->bathroom_id,
+        //     'discount_id'        =>  $request->discount_id,
+        //     'time_slot_id'       =>  $request->time_slot_id,
+        //     'total_bill'          =>  $request->totalbill,
+        //     'contact_with_covid_person' =>  $request->date,
+
+        // ]);
+        // if(!empty($request->services)){
+        //     $services = $request->services;
+        //         foreach ($services as $key => $service){ 
+        //             OrderExtra::create([
+        //                 'extra_service_id' => $service,
+        //                 'order_id'         => $order->id
+        //             ]);
+        //         }
+        // }
+        // if(!empty($request->cleaning_types)){
+        //     $cleaning_types = $request->cleaning_types;
+        //         foreach ($cleaning_types as $key => $cleaning_type){ 
+        //             OrderCleanType::create([
+        //                 'cleantype_id' => $cleaning_type,
+        //                 'order_id'         => $order->id
+        //             ]);
+        //         }
+        // }
+        Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+        $stripe = Stripe\Charge::create ([
+            "amount" => 100 * 100,
+            "currency" => "usd",
+            "source" => $request->stripeToken,
+            "description" => "Test payment from itsolutionstuff.com." 
+    ]);
+    dd($stripe);
+
+        // dd(env('STRIPE_SECRET'));
+        // $stripe = \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+
+        // dd($stripe);
+      
+    
+        Stripe\Charge::create ([
+    
+                "amount" => $request->totalbill * 100,
+    
+                "currency" => "usd",
+    
+                "customer" => $request->first_name,
+    
+                "description" => "Booking app pay",
+    
+    
+            
+    
+        ]); 
+    
+      
+    
+        Session::flash('success', 'Payment successful!');
     }
 
     /**

@@ -1,210 +1,165 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-
-        <title>Laravel</title>
-
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        <!-- Styles -->
-        <style>
-            /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */html{line-height:1.15;-webkit-text-size-adjust:100%}body{margin:0}a{background-color:transparent}[hidden]{display:none}html{font-family:system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;line-height:1.5}*,:after,:before{box-sizing:border-box;border:0 solid #e2e8f0}a{color:inherit;text-decoration:inherit}svg,video{display:block;vertical-align:middle}video{max-width:100%;height:auto}.bg-white{--bg-opacity:1;background-color:#fff;background-color:rgba(255,255,255,var(--bg-opacity))}.bg-gray-100{--bg-opacity:1;background-color:#f7fafc;background-color:rgba(247,250,252,var(--bg-opacity))}.border-gray-200{--border-opacity:1;border-color:#edf2f7;border-color:rgba(237,242,247,var(--border-opacity))}.border-t{border-top-width:1px}.flex{display:flex}.grid{display:grid}.hidden{display:none}.items-center{align-items:center}.justify-center{justify-content:center}.font-semibold{font-weight:600}.h-5{height:1.25rem}.h-8{height:2rem}.h-16{height:4rem}.text-sm{font-size:.875rem}.text-lg{font-size:1.125rem}.leading-7{line-height:1.75rem}.mx-auto{margin-left:auto;margin-right:auto}.ml-1{margin-left:.25rem}.mt-2{margin-top:.5rem}.mr-2{margin-right:.5rem}.ml-2{margin-left:.5rem}.mt-4{margin-top:1rem}.ml-4{margin-left:1rem}.mt-8{margin-top:2rem}.ml-12{margin-left:3rem}.-mt-px{margin-top:-1px}.max-w-6xl{max-width:72rem}.min-h-screen{min-height:100vh}.overflow-hidden{overflow:hidden}.p-6{padding:1.5rem}.py-4{padding-top:1rem;padding-bottom:1rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.pt-8{padding-top:2rem}.fixed{position:fixed}.relative{position:relative}.top-0{top:0}.right-0{right:0}.shadow{box-shadow:0 1px 3px 0 rgba(0,0,0,.1),0 1px 2px 0 rgba(0,0,0,.06)}.text-center{text-align:center}.text-gray-200{--text-opacity:1;color:#edf2f7;color:rgba(237,242,247,var(--text-opacity))}.text-gray-300{--text-opacity:1;color:#e2e8f0;color:rgba(226,232,240,var(--text-opacity))}.text-gray-400{--text-opacity:1;color:#cbd5e0;color:rgba(203,213,224,var(--text-opacity))}.text-gray-500{--text-opacity:1;color:#a0aec0;color:rgba(160,174,192,var(--text-opacity))}.text-gray-600{--text-opacity:1;color:#718096;color:rgba(113,128,150,var(--text-opacity))}.text-gray-700{--text-opacity:1;color:#4a5568;color:rgba(74,85,104,var(--text-opacity))}.text-gray-900{--text-opacity:1;color:#1a202c;color:rgba(26,32,44,var(--text-opacity))}.underline{text-decoration:underline}.antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.w-5{width:1.25rem}.w-8{width:2rem}.w-auto{width:auto}.grid-cols-1{grid-template-columns:repeat(1,minmax(0,1fr))}@media (min-width:640px){.sm\:rounded-lg{border-radius:.5rem}.sm\:block{display:block}.sm\:items-center{align-items:center}.sm\:justify-start{justify-content:flex-start}.sm\:justify-between{justify-content:space-between}.sm\:h-20{height:5rem}.sm\:ml-0{margin-left:0}.sm\:px-6{padding-left:1.5rem;padding-right:1.5rem}.sm\:pt-0{padding-top:0}.sm\:text-left{text-align:left}.sm\:text-right{text-align:right}}@media (min-width:768px){.md\:border-t-0{border-top-width:0}.md\:border-l{border-left-width:1px}.md\:grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}}@media (min-width:1024px){.lg\:px-8{padding-left:2rem;padding-right:2rem}}@media (prefers-color-scheme:dark){.dark\:bg-gray-800{--bg-opacity:1;background-color:#2d3748;background-color:rgba(45,55,72,var(--bg-opacity))}.dark\:bg-gray-900{--bg-opacity:1;background-color:#1a202c;background-color:rgba(26,32,44,var(--bg-opacity))}.dark\:border-gray-700{--border-opacity:1;border-color:#4a5568;border-color:rgba(74,85,104,var(--border-opacity))}.dark\:text-white{--text-opacity:1;color:#fff;color:rgba(255,255,255,var(--text-opacity))}.dark\:text-gray-400{--text-opacity:1;color:#cbd5e0;color:rgba(203,213,224,var(--text-opacity))}}
-        </style>
-        <style>
-            body {
-                font-family: 'Nunito', sans-serif;
-            }
-        </style>
-    </head>
-    <body class="antialiased">
-        <div class="container  mt-5 mb-5"> 
-        <h1>Complete your booking.
-        </h1>
-        <h2>Total Bill: <span id="totalbill"></span></h2>
-        <form action="{{route('check_orders.store')}}" method="post">
-            @csrf
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                <label for="inputEmail4">First Name</label>
-                <input type="text" class="form-control" id="inputEmail4" placeholder="Enter First" name="first_name">
+!DOCTYPE html>
+<html>
+<head>
+    <title>Laravel - Stripe Payment Gateway Integration Example - ItSolutionStuff.com</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+    
+<div class="container">
+    
+    <h1>Laravel - Stripe Payment Gateway Integration Example <br/> ItSolutionStuff.com</h1>
+    
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="panel panel-default credit-card-box">
+                <div class="panel-heading display-table" >
+                        <h3 class="panel-title" >Payment Details</h3>
                 </div>
-                <div class="form-group col-md-6">
-                <label for="">Last Name</label>
-                <input type="text" class="form-control" id="inputPassword4" placeholder="Last Name" name="last_name">
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                <label for="inputEmail4">Email</label>
-                <input type="email" class="form-control" id="inputEmail4" placeholder="Email" name="email">
-                </div>
-                <div class="form-group col-md-6">
-                <label for="inputPassword4">Phone Number</label>
-                <input type="number" class="form-control" id="inputPassword4" placeholder="Phone Number" name="phone_number">
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group col-md-8">
-                    <label for="inputAddress">Address</label>
-                    <input type="text" class="form-control" id="inputAddress" placeholder="DW Main St" name="address">
-                </div>
-                <div class="form-group col-md-4">
-                    <label for="inputAddress">Apt/Suit #</label>
-                    <input type="text" class="form-control" id="inputAddress" placeholder="1234 " name="apt_suite_number">
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                <label for="inputCity">City</label>
-                <input type="text" class="form-control" id="inputCity" name="city">
-                </div>
-                <div class="form-group col-md-4">
-                <label for="inputState">State</label>
-                <select id="inputState" class="form-control" name="state">
-                    <option selected>Choose...</option>
-                    <option>West</option>
-                    <option>North</option>
-                </select>
-                </div>
-                <div class="form-group col-md-2">
-                <label for="inputZip">Zip</label>
-                <input type="text" class="form-control" id="inputZip" name="zipcode">
-                </div>
-            </div>
-           
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label >Bed Room</label>
-                    <select class="form-control"  name="room_id" id="room_id">
-                    <option value="">--Select Room--</option>
-                    @foreach ($rooms as $room)
-                        <option value="{{$room->id}}">{{$room->title}}</option>
-                    @endforeach
-                        
-                   
-                    </select>
-                </div>
-                <div class="form-group col-md-6">
-                    <div class="form-group">
-                        <label for="exampleFormControlSelect1">Bath Room</label>
-                        <select class="form-control"  name="bathroom_id" id="bathroom_id">
-                             <option value="">--Select Bathroom--</option>
-                            @foreach($bathrooms as $bathroom)
-                                <option value="{{$bathroom->id}}">{{$bathroom->title}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-            </div>
-            {{-- <div class="form-row">
-                @foreach($services as $service)
-                    <div class="form-group col-md-3">
-                        <div class="form-check">
-                            <label><input type="checkbox" name="service" value="{{$service->title}}"> {{ $service->title}}</label>
-                                
-                           
+                <div class="panel-body">
+    
+                    @if (Session::has('success'))
+                        <div class="alert alert-success text-center">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+                            <p>{{ Session::get('success') }}</p>
                         </div>
-                    <div>
-                @endforeach
-            </div> --}}
-            <div class="form-row">
-                @foreach($services as $service)
-                    <div class="form-group col-md-3">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="{{$service->id}}" name="service">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                {{$service->title}}
-                            </label>
+                    @endif
+    
+                    <form 
+                            role="form" 
+                            action="{{ route('check_orders.store') }}" 
+                            method="post" 
+                            class="require-validation"
+                            data-cc-on-file="false"
+                            data-stripe-publishable-key="pk_test_H0n8RftpV3rgITLNU4HpFqMs"
+                            id="payment-form">
+                        @csrf
+    
+                        <div class='form-row row'>
+                            <div class='col-xs-12 form-group required'>
+                                <label class='control-label'>Name on Card</label> <input
+                                    class='form-control' size='4' type='text'>
+                            </div>
                         </div>
-                    </div>
-                @endforeach
-            </div>
-            <div class="form-row">
-                <div class="form-group col-md-9">
-                    <label for="exampleFormControlSelect1">Discount</label>
-                    <select class="form-control" id="exampleFormControlSelect1"  name="discount_id">
-                    <option value="">--Select Discount--</option>
-                    @foreach ($discounts as $discount)
-                        <option value="{{$discount->id}}">{{$discount->title}}</option>
-                    @endforeach
-                    
-                  
-                    </select>
-                </div>
-               
-            </div>
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label for="exampleFormControlSelect1">TimeSlots</label>
-                    <select class="form-control" id="exampleFormControlSelect1"  name="time_slot_id">
-                        <option value="">--Select TimeSlot--</option>
-                        @foreach($time_slots as $time_slot)
-                            <option value="{{$time_slot->id}}">{{$time_slot->time_slot}}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="form-group col-md-6">
-                   <label for="inputZip">Date</label>
-                    <input type="date" class="form-control" id="date" name="date">
-                </div>
-            </div>
-            <div class="form-row">
-                @foreach($cleaning_types as $cleaning_type)
-                    <div class="form-group col-md-3">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="{{$cleaning_type->id}}" name="clean_type_id[]">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                {{$cleaning_type->title}}
-                            </label>
+    
+                        <div class='form-row row'>
+                            <div class='col-xs-12 form-group card required'>
+                                <label class='control-label'>Card Number</label> <input
+                                    autocomplete='off' class='form-control card-number' size='20'
+                                    type='text'>
+                            </div>
                         </div>
-                    </div>
-                @endforeach
-            </div>
-            <div class="form-row">
-                <div class="form-group col-md-12">
-                    <label for="exampleFormControlSelect1">Have you been in contact with anyone that has tested positive for COVID-19 in the last 30 days?</label>
-                    <select class="form-control" id="exampleFormControlSelect1" name="contact_with_covid_person">
-                    <option>Yes</option>
-                    <option>No</option>
-                   
-                    </select>
+    
+                        <div class='form-row row'>
+                            <div class='col-xs-12 col-md-4 form-group cvc required'>
+                                <label class='control-label'>CVC</label> <input autocomplete='off'
+                                    class='form-control card-cvc' placeholder='ex. 311' size='4'
+                                    type='text'>
+                            </div>
+                            <div class='col-xs-12 col-md-4 form-group expiration required'>
+                                <label class='control-label'>Expiration Month</label> <input
+                                    class='form-control card-expiry-month' placeholder='MM' size='2'
+                                    type='text'>
+                            </div>
+                            <div class='col-xs-12 col-md-4 form-group expiration required'>
+                                <label class='control-label'>Expiration Year</label> <input
+                                    class='form-control card-expiry-year' placeholder='YYYY' size='4'
+                                    type='text'>
+                            </div>
+                        </div>
+    
+                        <div class='form-row row'>
+                            <div class='col-md-12 error form-group hide'>
+                                <div class='alert-danger alert'>Please correct the errors and try
+                                    again.</div>
+                            </div>
+                        </div>
+    
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <button class="btn btn-primary btn-lg btn-block" type="submit">Pay Now ($100)</button>
+                            </div>
+                        </div>
+                            
+                    </form>
                 </div>
-               
-            </div>
-            
-            <button type="submit" class="btn btn-primary">Book Now</button>
-        </form>
+            </div>        
         </div>
-    </body>
-        <script src="https://code.jquery.com/jquery-3.1.1.min.js">
-        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-        <script>
-            $('#room_id,#bathroom_id').on('change',function(e){
-                var room_id =  $('#room_id').val();
-                var bathroom_id =   $('#bathroom_id').val();
-               
-                $.ajax({
-                    type: 'POST',
-                    url:' {{route('get.totalbill')}}',
-                    data: { "_token": "{{ csrf_token() }}", room_id: room_id, bathroom_id:bathroom_id },
-                    dataType: 'json',
-                    success: function (total_bill) {
-                        document.getElementById('totalbill').innerHTML = total_bill;
-                       
-                    },
-                    error: function (data) {
-                        console.log(data);
-                    }
-                });
-              
-
-            });
-             
-
-        </script>
+    </div>
+        
+</div>
+    
+</body>
+    
+<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+    
+<script type="text/javascript">
+  
+$(function() {
+  
+    /*------------------------------------------
+    --------------------------------------------
+    Stripe Payment Code
+    --------------------------------------------
+    --------------------------------------------*/
+    
+    var $form = $(".require-validation");
+     
+    $('form.require-validation').bind('submit', function(e) {
+        var $form = $(".require-validation"),
+        inputSelector = ['input[type=email]', 'input[type=password]',
+                         'input[type=text]', 'input[type=file]',
+                         'textarea'].join(', '),
+        $inputs = $form.find('.required').find(inputSelector),
+        $errorMessage = $form.find('div.error'),
+        valid = true;
+        $errorMessage.addClass('hide');
+    
+        $('.has-error').removeClass('has-error');
+        $inputs.each(function(i, el) {
+          var $input = $(el);
+          if ($input.val() === '') {
+            $input.parent().addClass('has-error');
+            $errorMessage.removeClass('hide');
+            e.preventDefault();
+          }
+        });
+     
+        if (!$form.data('cc-on-file')) {
+            e.preventDefault();
+          Stripe.setPublishableKey($form.data('stripe-publishable-key'));
+          Stripe.createToken({
+            number: $('.card-number').val(),
+            cvc: $('.card-cvc').val(),
+            exp_month: $('.card-expiry-month').val(),
+            exp_year: $('.card-expiry-year').val()
+          }, stripeResponseHandler);
+        }
+    
+    });
+      
+    /*------------------------------------------
+    --------------------------------------------
+    Stripe Response Handler
+    --------------------------------------------
+    --------------------------------------------*/
+    function stripeResponseHandler(status, response) {
+        if (response.error) {
+            $('.error')
+                .removeClass('hide')
+                .find('.alert')
+                .text(response.error.message);
+        } else {
+            /* token contains id, last4, and card type */
+            var token = response['id'];
+                 
+            $form.find('input[type=text]').empty();
+            $form.append("<input type='hidden' name='stripeToken' value='" + token + "'/>");
+            $form.get(0).submit();
+        }
+    }
+     
+});
+</script>
 </html>
