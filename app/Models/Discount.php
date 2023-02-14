@@ -9,6 +9,6 @@ class Discount extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'title', 'amount'
+        'title', 'amount','redeem','expire_at','coupen'
     ];
 }

@@ -74,6 +74,20 @@
                         <span class="text-danger">{{ $errors->first('title') }}</span>
                       </div>
                     </div>
+                    <div class="form-group row {{ $errors->has('coupen') ? 'has-error' : '' }}">
+                      <label class="col-3">Coupen</label>
+                      <div class="col-9">
+                        {{ Form::text('coupen', null, ['class' => 'form-control form-control-solid','id'=>'coupen','placeholder'=>'Enter coupen','required'=>'true']) }}
+                        <span class="text-danger">{{ $errors->first('coupen') }}</span>
+                      </div>
+                    </div>
+                    <div class="form-group row {{ $errors->has('expire_at') ? 'has-error' : '' }}">
+                      <label class="col-3">Expire at</label>
+                      <div class="col-9">
+                        {{ Form::date('expire_at', null, ['class' => 'form-control form-control-solid','id'=>'expire_at','placeholder'=>'Enter expire_at','required'=>'true']) }}
+                        <span class="text-danger">{{ $errors->first('expire_at') }}</span>
+                      </div>
+                    </div>
                     <div class="form-group row {{ $errors->has('price') ? 'has-error' : '' }}">
                       <label class="col-3">Amount</label>
                       <div class="col-9">

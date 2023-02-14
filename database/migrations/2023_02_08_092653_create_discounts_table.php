@@ -17,6 +17,9 @@ class CreateDiscountsTable extends Migration
             $table->id();
             $table->string('title')->nullable();
             $table->integer('amount')->nullable();
+            $table->string('redeem')->nullable();
+            $table->string('expire_at')->nullable();
+            $table->text('coupen')->nullable();
             $table->timestamps();
         });
     }

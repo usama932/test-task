@@ -129,7 +129,9 @@
                 },
                
                 {
-                    "data": "created_at"
+                     "data": "created_at",
+                     "searchable": false,
+                    "orderable": false
                 },
                 {
                     "data": "action",

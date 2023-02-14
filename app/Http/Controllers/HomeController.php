@@ -67,75 +67,58 @@ class HomeController extends Controller
         ]);
         
       
-        // $order  = Order::create([
-        //     'first_name' =>  $request->first_name,
+        $order  = Order::create([
+            'first_name' =>  $request->first_name,
             
-        //     'last_name'          =>  $request->last_name,
-        //     'email'              =>  $request->email,
-        //     'phone_number'       =>  $request->phone_number,
-        //     'address'            =>  $request->address,
-        //     'zipcode'            =>  $request->zipcode,
-        //     'apt_suite_number'   => $request->apt_suite_number,
-        //     'city'               =>  $request->city,
-        //     'state'              =>  $request->state,
-        //     'room_id'            =>  $request->room_id,
-        //     'bathroom_id'        =>  $request->bathroom_id,
-        //     'discount_id'        =>  $request->discount_id,
-        //     'time_slot_id'       =>  $request->time_slot_id,
-        //     'total_bill'          =>  $request->totalbill,
-        //     'contact_with_covid_person' =>  $request->date,
+            'last_name'          =>  $request->last_name,
+            'email'              =>  $request->email,
+            'phone_number'       =>  $request->phone_number,
+            'address'            =>  $request->address,
+            'zipcode'            =>  $request->zipcode,
+            'apt_suite_number'   => $request->apt_suite_number,
+            'city'               =>  $request->city,
+            'state'              =>  $request->state,
+            'room_id'            =>  $request->room_id,
+            'date'               =>  $request->date,
+            'bathroom_id'        =>  $request->bathroom_id,
+            'discount_id'        =>  $request->discount_id,
+            'time_slot_id'       =>  $request->time_slot_id,
+            'total_bill'          =>  $request->totalbill,
+            'contact_with_covid_person' =>  $request->date,
 
-        // ]);
-        // if(!empty($request->services)){
-        //     $services = $request->services;
-        //         foreach ($services as $key => $service){ 
-        //             OrderExtra::create([
-        //                 'extra_service_id' => $service,
-        //                 'order_id'         => $order->id
-        //             ]);
-        //         }
-        // }
-        // if(!empty($request->cleaning_types)){
-        //     $cleaning_types = $request->cleaning_types;
-        //         foreach ($cleaning_types as $key => $cleaning_type){ 
-        //             OrderCleanType::create([
-        //                 'cleantype_id' => $cleaning_type,
-        //                 'order_id'         => $order->id
-        //             ]);
-        //         }
-        // }
+        ]);
+        if(!empty($request->services)){
+            $services = $request->services;
+                foreach ($services as $key => $service){ 
+                    OrderExtra::create([
+                        'extra_service_id' => $service,
+                        'order_id'         => $order->id
+                    ]);
+                }
+        }
+        if(!empty($request->cleaning_types)){
+            $cleaning_types = $request->cleaning_types;
+                foreach ($cleaning_types as $key => $cleaning_type){ 
+                    OrderCleanType::create([
+                        'cleantype_id' => $cleaning_type,
+                        'order_id'         => $order->id
+                    ]);
+                }
+        }
+        if(!empty($request->order_id) && !empty($strip->id) ){
+            PaymentHistory::create([
+                'payment_id'    => $strip->id,
+                'order_id'      => $request->order_id
+            ]);
+        }
         Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
         $stripe = Stripe\Charge::create ([
-            "amount" => 100 * 100,
+            "amount" => $request->total_bill * 100,
             "currency" => "usd",
             "source" => $request->stripeToken,
             "description" => "Test payment from itsolutionstuff.com." 
     ]);
-    dd($stripe);
 
-        // dd(env('STRIPE_SECRET'));
-        // $stripe = \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
-
-        // dd($stripe);
-      
-    
-        Stripe\Charge::create ([
-    
-                "amount" => $request->totalbill * 100,
-    
-                "currency" => "usd",
-    
-                "customer" => $request->first_name,
-    
-                "description" => "Booking app pay",
-    
-    
-            
-    
-        ]); 
-    
-      
-    
         Session::flash('success', 'Payment successful!');
     }
 
