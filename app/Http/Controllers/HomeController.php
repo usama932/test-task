@@ -52,19 +52,19 @@ class HomeController extends Controller
      */
     public function store(Request $request)
     {
-        
-        // $this->validate($request, [
-        //     'first_name' => 'required|max:255',
-        //     'last_name' => 'required|max:255',
-        //     'email' => 'required',
-        //     'phone_number' => 'required',
-        //     'address' => 'required',
-        //     'state' => 'required',
-        //     'zipcode' => 'required',
-        //     'room_id' => 'required',
-        //     'totalbill' => 'required',
+       
+        $this->validate($request, [
+            'first_name' => 'required|max:255',
+            'last_name' => 'required|max:255',
+            'email' => 'required',
+            'phone_number' => 'required',
+            'address' => 'required',
+            'state' => 'required',
+            'zipcode' => 'required',
+            'room_id' => 'required',
+            'totalbill' => 'required',
            
-        // ]);
+        ]);
         
       
         // $order  = Order::create([
