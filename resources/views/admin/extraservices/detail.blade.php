@@ -6,7 +6,7 @@
 			<td>{{$service->title}}</td>
 		</tr>
 		<tr>
-			<td>Price</td>
+			<td>Price ($)</td>
 			<td>{{$service->price}}</td>
 		</tr>
 		<tr>

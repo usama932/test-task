@@ -75,7 +75,7 @@
                       </div>
                     </div>
                     <div class="form-group row {{ $errors->has('price') ? 'has-error' : '' }}">
-                      <label class="col-3">Price</label>
+                      <label class="col-3">Price ($)</label>
                       <div class="col-9">
                         {{ Form::number('price', null, ['class' => 'form-control form-control-solid','id'=>'price','placeholder'=>'Enter Price','required'=>'true']) }}
                         <span class="text-danger">{{ $errors->first('price') }}</span>

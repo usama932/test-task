@@ -6,7 +6,7 @@
 			<td>{{$extra_order->extra_service_id}}</td>
 		</tr>
 		<tr>
-			<td>Order_id</td>
+			<td>Order #</td>
 			<td>{{$extra_order->order_id}}</td>
 		</tr>
 		

@@ -7,7 +7,7 @@
 			<td>{{$cleaning_type->title}}</td>
 		</tr>
 		<tr>
-			<td>Price</td>
+			<td>Price ($)</td>
 			<td>{{$cleaning_type->price}}</td>
 		</tr>
 		

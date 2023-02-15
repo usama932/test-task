@@ -95,7 +95,7 @@
                       </div>
                     </div>
                     <div class="form-group row {{ $errors->has('email') ? 'has-error' : '' }}">
-                      <label class="col-3">Amount</label>
+                      <label class="col-3">Amount ($)</label>
                       <div class="col-9">
                         {{ Form::number('amount', null, ['class' => 'form-control form-control-solid','id'=>'amount','placeholder'=>'amount','required'=>'true']) }}
                         <span class="text-danger">{{ $errors->first('amount') }}</span>

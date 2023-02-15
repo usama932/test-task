@@ -34,8 +34,8 @@
                                             type="checkbox"><span></span></label>
 
                                 </th>
-                                <th>Payment_id</th>
-                                <th>Order_id</th>
+                                <th>Payment #</th>
+                                <th>Order #</th>
                                 <th>Created At</th>
                                 <th>Actions</th>
                             </tr>

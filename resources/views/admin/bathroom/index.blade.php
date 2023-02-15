@@ -50,7 +50,7 @@
                                             type="checkbox"><span></span></label>
                                 </th>
                                 <th>Title</th>
-                                <th>Price</th>
+                                <th>Price ($)</th>
                                 <th>Created At</th>
                                 <th>Actions</th>
                             </tr>

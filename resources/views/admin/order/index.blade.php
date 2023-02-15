@@ -35,7 +35,7 @@
 
                                 </th>
                                 <th>Email </th>
-                                <th>Phone No#</th>
+                                <th>Phone No #</th>
                                 <th>Room </th>
                                 <th>Created At</th>
                                 <th>Actions</th>

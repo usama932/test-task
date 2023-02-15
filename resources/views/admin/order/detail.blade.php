@@ -58,7 +58,7 @@
 			<td>{{$order->date}}</td>
 		</tr>
         <tr>
-			<td>Total Bill</td>
+			<td>Total Bill ($)</td>
 			<td>{{$order->total_bill}}</td>
 		</tr>
 		<tr>

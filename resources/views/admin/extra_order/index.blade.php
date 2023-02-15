@@ -35,7 +35,7 @@
 
                                 </th>
                                 <th>Extra Service </th>
-                                <th>Order_id</th>
+                                <th>Order #</th>
                                 <th>Created At</th>
                                 <th>Actions</th>
                             </tr>
