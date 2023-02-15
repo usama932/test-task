@@ -245,7 +245,7 @@
                 var bill = sum === 0 ? '0.00' : sum ;
                 
                     document.querySelector('input[name="totalbill"]').value = bill ?? ''; 
-                $('#result').html(bill);
+                    $('#result').html(bill);
                 
             }
             validate();
@@ -344,9 +344,10 @@
                         totalbill: totalbill,
                       
                     },
-                    success: function($data) {
-                        alert($data);
-                      
+                    success: function(data) {                   
+                        
+                         document.querySelector('input[name="totalbill"]').value = data.totalbill ?? ''; 
+                         $('#result').html(data.totalbill);
                     }
                 });
             });

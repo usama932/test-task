@@ -17,6 +17,7 @@ use Auth;
 use Illuminate\Support\Facades\Session;
 use Stripe;
 use App\Models\OrderCleanType;
+use Response;
 
 class HomeController extends Controller
 {
@@ -65,11 +66,26 @@ class HomeController extends Controller
             'totalbill' => 'required',
            
         ]);
-        
-      
+        $discount = 0 ;
+        if($request->discount)
+        {
+            $coupen = Discount::where('coupen',$request->discount)->where('redeem','free')->first();
+            if(empty($coupen)){
+    
+                $discount = 0 ;   
+                return redirect()->back()->with('success','Something Wrong in Your Dis% Coupen');
+            }
+            else{
+                $discount = $coupen->amount;  
+                Discount::where('id',$coupen->id)->update([
+                    'redeem' => 'used'
+                ]);
+                    
+
+            }      
+        }
         $order  = Order::create([
-            'first_name' =>  $request->first_name,
-            
+            'first_name' =>  $request->first_name, 
             'last_name'          =>  $request->last_name,
             'email'              =>  $request->email,
             'phone_number'       =>  $request->phone_number,
@@ -81,7 +97,7 @@ class HomeController extends Controller
             'room_id'            =>  $request->room_id,
             'date'               =>  $request->date,
             'bathroom_id'        =>  $request->bathroom_id,
-            'discount_id'        =>  $request->discount_id,
+            'discount_id'        =>  $discount,
             'time_slot_id'       =>  $request->time_slot_id,
             'total_bill'          =>  $request->totalbill,
             'contact_with_covid_person' =>  $request->date,
@@ -188,7 +204,7 @@ class HomeController extends Controller
                     }
                 }
               
-                return Response::json(['success' => $totalbill], 200);    
+                return Response::json(['totalbill' => $totalbill], 200);    
                 
         }
     }

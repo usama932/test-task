@@ -23,6 +23,7 @@ License: You must have a valid license purchased only from themeforest(the above
 <!--begin::Head-->
 <head>
 	@include('admin.partials._head')
+
 </head>
 
 <!--end::Head-->
