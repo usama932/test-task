@@ -78,6 +78,10 @@
                       <label class="col-3">Coupen</label>
                       <div class="col-9">
                         {{ Form::text('coupen', null, ['class' => 'form-control form-control-solid','id'=>'coupen','placeholder'=>'Enter coupen','required'=>'true']) }}
+                        <div class="mt-3">
+                         <button type="button" class="btn btn-primary btn-sm" onclick="myFunction()">Generate Coupen</button>
+                        </div>
+
                         <span class="text-danger">{{ $errors->first('coupen') }}</span>
                       </div>
                     </div>
@@ -89,13 +93,13 @@
                       </div>
                     </div>
                     <div class="form-group row {{ $errors->has('price') ? 'has-error' : '' }}">
-                      <label class="col-3">Amount</label>
+                      <label class="col-3">Amount ($)</label>
                       <div class="col-9">
                         {{ Form::number('amount', null, ['class' => 'form-control form-control-solid','id'=>'amount','placeholder'=>'Enter amount','required'=>'true']) }}
                         <span class="text-danger">{{ $errors->first('amount') }}</span>
                       </div>
                     </div>
-
+                    
                   </div>
 
                 </div>
@@ -112,4 +116,11 @@
     </div>
     <!--end::Entry-->
   </div>
+    <script>
+      function myFunction() {
+        var id = "#" + Math.random().toString(16).slice(2)        
+        document.querySelector('input[name="coupen"]').value = id ?? ''; 
+
+      }
+    </script>
 @endsection
