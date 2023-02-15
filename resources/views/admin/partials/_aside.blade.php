@@ -275,6 +275,10 @@
                             <span class="menu-text">Cleaning Types</span>
                         </a>
                 </li>
+                <li class="menu-section">
+                    <h4 class="menu-text">Accounts</h4>
+                    <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
+                </li>
                 <li class="menu-item <?php if (Request::segment(1) == 'admin' && Request::segment(2) == 'orders') {
                     echo 'menu-item-active';
                     } ?>" aria-haspopup="true">
@@ -346,6 +350,10 @@
                             </span>
                             <span class="menu-text">Payment History</span>
                         </a>
+                </li>
+                <li class="menu-section">
+                    <h4 class="menu-text">Manage User</h4>
+                    <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
                 </li>
                 <li class="menu-item <?php if (Request::segment(1) == 'admin' && Request::segment(2) == 'clients') {
                     echo 'menu-item-active';

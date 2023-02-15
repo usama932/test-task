@@ -51,6 +51,8 @@
                                 </th>
                                 <th>Title</th>
                                 <th>Amount</th>
+                                <th>Coupen</th>
+                                <th>Status</th>
                                 <th>Created At</th>
                                 <th>Actions</th>
                             </tr>
@@ -126,6 +128,12 @@
                 },
                 {
                     "data": "amount"
+                },
+                 {
+                    "data": "coupen"
+                },
+                 {
+                    "data": "redeem"
                 },
                
                 {

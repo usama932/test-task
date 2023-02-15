@@ -26,8 +26,11 @@ class DiscountController extends Controller
 			0 => 'id',
 			1 => 'title',
 			2 => 'price',
-			3 => 'created_at',
-			4 => 'action'
+            3 => 'coupen',
+            4 => 'expire_at',
+            5 => 'redeem',
+			6 => 'created_at',
+			6 => 'action'
 		);
 		
 		$totalData = Discount::count();
@@ -48,7 +51,7 @@ class DiscountController extends Controller
 				['title', 'like', "%{$search}%"],
 			])
 				->orWhere('price','like',"%{$search}%")
-				->orWhere('created_at','like',"%{$search}%")
+				->orWhere('coupen','like',"%{$search}%")
 				->offset($start)
 				->limit($limit)
 				->orderBy($order, $dir)
@@ -59,7 +62,7 @@ class DiscountController extends Controller
 			])
 				->orWhere('title', 'like', "%{$search}%")
 				->orWhere('price','like',"%{$search}%")
-				->orWhere('created_at','like',"%{$search}%")
+				->orWhere('coupen','like',"%{$search}%")
 				->count();
 		}
 		
@@ -71,8 +74,9 @@ class DiscountController extends Controller
 				$edit_url = route('discounts.edit',$r->id);
 				$nestedData['id'] = '<td><label class="checkbox checkbox-outline checkbox-success"><input type="checkbox" name="discounts[]" value="'.$r->id.'"><span></span></label></td>';
 				$nestedData['title'] = $r->title;
-				$nestedData['amount'] = $r->amount;
-				
+				$nestedData['amount'] = '$'.$r->amount;
+                $nestedData['coupen'] = $r->coupen;
+                $nestedData['redeem'] = $r->redeem;
 				$nestedData['created_at'] = date('d-m-Y',strtotime($r->created_at));
 				$nestedData['action'] = '
                                 <div>
@@ -139,6 +143,9 @@ class DiscountController extends Controller
         $discount = Discount::create([
             'title' => $request->title,
             'amount' => $request->amount,
+            'coupen' =>  $request->coupen,
+            'expire_at' =>  $request->expire_at,
+            'redeem' =>  'free'
         ]);
         Session::flash('success_message', 'Great! Room has been saved successfully!');
       
@@ -187,6 +194,9 @@ class DiscountController extends Controller
         $discount = Discount::where('id', $id)->update([
             'title' => $request->title,
             'amount' => $request->amount,
+            'coupen' =>  $request->coupen,
+            'expire_at' =>  $request->expire_at,
+            'redeem' =>  'free'
         ]);
         Session::flash('success_message', 'Great! Discount has been updated successfully!');
       
