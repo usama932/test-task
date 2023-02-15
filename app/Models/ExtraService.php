@@ -15,5 +15,9 @@ class ExtraService extends Model
     {
         return $this->belongsTo(Room::class);
     }
+    public function extra_order()
+    {
+        return $this->hasMany(OrderExtra::class,'extra_service_id','id');
+    }
 }
 

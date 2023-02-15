@@ -11,4 +11,11 @@ class OrderExtra extends Model
     protected $fillable = [
         'order_id', 'extra_service_id'
     ];
+    public function order()
+    {
+        return $this->belongsTo(Order::class,'order_id','id');
+    }
+    public function service(){
+        return $this->belongsTo(ExtraService::class,'extra_service_id','id');
+    }
 }

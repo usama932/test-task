@@ -15,4 +15,8 @@ class Room extends Model
     {
         return $this->hasMany(ExtraService::class);
     }
+    public function order()
+    {
+        return $this->hasOne(Discount::class,'room_id','id');
+    }
 }

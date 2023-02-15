@@ -11,4 +11,9 @@ class CleaningType extends Model
     protected $fillable = [
         'title', 'price'
     ];
+    
+    public function cleaning_type_order()
+    {
+        return $this->hasMany(OrderCleanType::class,'cleantype_id','id');
+    }
 }

@@ -11,4 +11,8 @@ class Discount extends Model
     protected $fillable = [
         'title', 'amount','redeem','expire_at','coupen'
     ];
+    public function order()
+    {
+        return $this->hasOne(Order::class,'discount_id','id');
+    }
 }

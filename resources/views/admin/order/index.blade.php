@@ -131,7 +131,7 @@
         function viewInfo(id) {
 
             var CSRF_TOKEN = '{{ csrf_token() }}';
-            $.post("{{ route('admin.getorders') }}", {
+            $.post("{{ route('admin.getorder') }}", {
                 _token: CSRF_TOKEN,
                 id: id
             }).done(function(response) {

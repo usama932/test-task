@@ -113,13 +113,14 @@ class HomeController extends Controller
         }
         Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
         $stripe = Stripe\Charge::create ([
-            "amount" => $request->total_bill * 100,
+            "amount" => $request->totalbill * 100,
             "currency" => "usd",
             "source" => $request->stripeToken,
             "description" => "Test payment from itsolutionstuff.com." 
     ]);
 
         Session::flash('success', 'Payment successful!');
+        return redirect()->back()->with('message','Cogratulation..! Booking Successfully');
     }
 
     /**

@@ -11,4 +11,8 @@ class TimeSlots extends Model
     protected $fillable = [
         'day', 'time_slot'
     ];
+    public function order()
+    {
+        return $this->hasOne(Order::class,'time_slot_id','id');
+    }
 }

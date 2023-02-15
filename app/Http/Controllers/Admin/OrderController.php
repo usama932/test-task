@@ -42,6 +42,7 @@ class OrderController extends Controller
 			$orders = Order::offset($start)
 				->limit($limit)
 				->orderBy($order,$dir)
+                ->with('room')
 				->get();
 			$totalFiltered = Order::count();
 		}else{
@@ -52,6 +53,7 @@ class OrderController extends Controller
 				->offset($start)
 				->limit($limit)
 				->orderBy($order, $dir)
+                ->with('room')
 				->get();
 			$totalFiltered = OrderExtra::where([
 				
@@ -70,7 +72,7 @@ class OrderController extends Controller
 				$nestedData['id'] = '<td><label class="checkbox checkbox-outline checkbox-success"><input type="checkbox" name="orders[]" value="'.$r->id.'"><span></span></label></td>';
 				$nestedData['email'] = $r->email;
 				$nestedData['phone_number'] = $r->phone_number;
-				$nestedData['room_id'] = $r->room_id;
+				$nestedData['room_id'] = $r->room->title;
 				$nestedData['created_at'] = date('d-m-Y',strtotime($r->created_at));
 				$nestedData['action'] = '
                                 <div>
@@ -104,9 +106,8 @@ class OrderController extends Controller
       
     }
     public function getorder(Request $request){
-        $order = Order::findOrFail($request->id);
-		
-		
+        $order = Order::where('id',$request->id)->with('room','bathroom','discount','time_slot','extraorder','cleaningtype')->first();
+	
 		return view('admin.order.detail', ['title' => 'Order Detail', 'order' => $order]);
     }
 

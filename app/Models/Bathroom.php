@@ -11,5 +11,8 @@ class Bathroom extends Model
     protected $fillable = [
         'title', 'price'
     ];
-
+    public function order()
+    {
+        return $this->hasOne(Order::class,'bathroom_id','id');
+    }
 }
