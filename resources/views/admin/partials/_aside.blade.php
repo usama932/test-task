@@ -2,10 +2,10 @@
 <style>
 .logo {
     position: relative;
-    width: 170px;
-    height: 80px;
-    margin-top: 10px;
-  
+    width: 150px;
+    height: 70px;
+    margin: 5% !important;
+     margin-top: 20% !important;
 }
 </style>
 
@@ -16,7 +16,8 @@
 
         <!--begin::Logo-->
         <a href="{{ route('admin.dashboard') }}" class="brand-logo">
-            <img alt="Logo" class="logo" src="{{ asset($logo) }}" />
+            <h3 class="text-center text-white m-4">Xtreme Booking</h3>
+            {{-- <img alt="Logo" class="logo mt-5" src="{{ asset($logo) }}" /> --}}
         </a>
 
         <!--end::Logo-->
