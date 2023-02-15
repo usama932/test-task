@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}" />
         <title>Laravel</title>
         <!-- Fonts -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />
@@ -136,12 +137,10 @@
                 <div class="form-row">
                     <div class="form-group col-md-9">
                         <label for="exampleFormControlSelect1">Discount</label>
-                        <select class="form-control" id="exampleFormControlSelect1"  name="discount_id" id="discount_id">
-                            <option value="">--Select Discount--</option>
-                            @foreach ($discounts as $discount)
-                            <option value="{{$discount->id}}"  data-price="{{$discount->price}}">{{$discount->title}}</option>
-                            @endforeach
-                        </select>
+                        <input type="text" class="form-control" id="discount" name="discount">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <button type="button" id="submitdiscount" class="btn btn-primary btn-xs">Apply</button>
                     </div>
                 </div>
                 <div class="form-row">
@@ -203,7 +202,7 @@
                         </div>
     
                         <div class='form-row '>
-                            <div class='col-md-12 error form-group hide'>
+                            <div class='col-md-12 error form-group hide'>\admin\services
                                 <div class='alert-danger alert'>Please correct the errors and try
                                     again.</div>
                             </div>
@@ -224,8 +223,8 @@
             </form> 
     </body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
-    </script>
+    {{-- <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+    </script> --}}
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     <script>
@@ -234,7 +233,6 @@
                 var sum = 0;
                 sum += +$('#bathroom_id option:selected').data('price') || 0;
                 sum += +$('#room_id option:selected').data('price') || 0;
-                sum += +$('#discount_id option:selected').data('price') || 0;
                 
                 //loop through checked checkbox
                 $('#checker input:checked').each(function() {
@@ -328,6 +326,30 @@
                 }
             }
             
+        });
+        $(document).ready(function() {
+            $("#submitdiscount").on("click", function(e) {
+                e.preventDefault();
+                var coupen = $("#discount").val();
+                var totalbill = $("#totalbill").val();
+                
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    url: "/discount/submit",
+                    type: "POST",
+                    data: {
+                        coupen: coupen,
+                        totalbill: totalbill,
+                      
+                    },
+                    success: function($data) {
+                        alert($data);
+                      
+                    }
+                });
+            });
         });
     </script>
 </html>

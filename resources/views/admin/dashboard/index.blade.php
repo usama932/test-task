@@ -13,9 +13,9 @@
 					<div class="card card-custom bg-gray-100 card-stretch gutter-b">
 						<!--begin::Header-->
 						<div class="card-header border-0 bg-danger py-5">
-							<h3 class="card-title font-weight-bolder text-white">Sales Stat</h3>
+							<h3 class="card-title font-weight-bolder text-white"> Stat</h3>
 							<div class="card-toolbar">
-								<div class="dropdown dropdown-inline">
+								{{-- <div class="dropdown dropdown-inline">
 									<a href="#" class="btn btn-transparent-white btn-sm font-weight-bolder dropdown-toggle px-5" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Export</a>
 									<div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
 										<!--begin::Navigation-->
@@ -66,7 +66,7 @@
 										</ul>
 										<!--end::Navigation-->
 									</div>
-								</div>
+								</div> --}}
 							</div>
 						</div>
 						<!--end::Header-->
@@ -93,7 +93,7 @@
 																</svg>
 																<!--end::Svg Icon-->
 															</span>
-										<a href="#" class="text-warning font-weight-bold font-size-h6">Weekly Sales</a>
+										<a href="#" class="text-warning font-weight-bold font-size-h6">Total Room {{$room ?? '0'}}</a>
 									</div>
 									<div class="col bg-light-primary px-6 py-8 rounded-xl mb-7">
 															<span class="svg-icon svg-icon-3x svg-icon-primary d-block my-2">
@@ -107,7 +107,7 @@
 																</svg>
 																<!--end::Svg Icon-->
 															</span>
-										<a href="#" class="text-primary font-weight-bold font-size-h6 mt-2">New Users</a>
+										<a href="#" class="text-primary font-weight-bold font-size-h6 mt-2">Total User {{$users ?? '0'}}</a>
 									</div>
 								</div>
 								<!--end::Row-->
@@ -125,7 +125,7 @@
 																</svg>
 																<!--end::Svg Icon-->
 															</span>
-										<a href="#" class="text-danger font-weight-bold font-size-h6 mt-2">Item Orders</a>
+										<a href="#" class="text-danger font-weight-bold font-size-h6 mt-2"> Total Bathroom {{$bathroom ?? ''}}</a>
 									</div>
 									<div class="col bg-light-success px-6 py-8 rounded-xl">
 															<span class="svg-icon svg-icon-3x svg-icon-success d-block my-2">
@@ -139,7 +139,7 @@
 																</svg>
 																<!--end::Svg Icon-->
 															</span>
-										<a href="#" class="text-success font-weight-bold font-size-h6 mt-2">Bug Reports</a>
+										<a href="#" class="text-success font-weight-bold font-size-h6 mt-2">Total Extra-Services {{$services ?? ''}}</a>
 									</div>
 								</div>
 								<!--end::Row-->
@@ -173,8 +173,8 @@
 														</span>
 													</span>
 								<div class="d-flex flex-column text-right">
-									<span class="text-dark-75 font-weight-bolder font-size-h3">750$</span>
-									<span class="text-muted font-weight-bold mt-2">Weekly Income</span>
+									<span class="text-dark-75 font-weight-bolder font-size-h3">{{$order ?? ''}}</span>
+									<span class="text-muted font-weight-bold mt-2">Total Order</span>
 								</div>
 							</div>
 							<div id="kt_stats_widget_11_chart" class="card-rounded-bottom" data-color="success" style="height: 150px"></div>
@@ -203,8 +203,8 @@
 														</span>
 													</span>
 								<div class="d-flex flex-column text-right">
-									<span class="text-dark-75 font-weight-bolder font-size-h3">+6,5K</span>
-									<span class="text-muted font-weight-bold mt-2">New Users</span>
+									<span class="text-dark-75 font-weight-bolder font-size-h3">{{$discount ?? ''}}</span>
+									<span class="text-muted font-weight-bold mt-2">Discounts Coupens</span>
 								</div>
 							</div>
 							<div id="kt_stats_widget_12_chart" class="card-rounded-bottom" data-color="primary" style="height: 150px"></div>

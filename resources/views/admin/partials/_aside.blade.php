@@ -1,4 +1,14 @@
 <!--begin::Aside-->
+<style>
+.logo {
+    position: relative;
+    width: 100px;
+    height: 70px;
+    margin-top: 20px;
+    margin-left: 30px;
+    background-size: contain;
+}
+</style>
 <div class="aside aside-left aside-fixed d-flex flex-column flex-row-auto" id="kt_aside">
 
     <!--begin::Brand-->
@@ -6,7 +16,7 @@
 
         <!--begin::Logo-->
         <a href="{{ route('admin.dashboard') }}" class="brand-logo">
-            <img alt="Logo" src="{{ asset($logo) }}" />
+            <img alt="Logo" class="logo" src="{{ asset($logo) }}" />
         </a>
 
         <!--end::Logo-->

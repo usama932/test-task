@@ -167,4 +167,29 @@ class HomeController extends Controller
     {
         //
     }
+    public function applydiscount(Request $request){
+        if($request->coupen)
+        {
+            $totalbill = 0;
+            $coupen = Discount::where('coupen',$request->coupen)->where('redeem','free')->first();
+            
+                if(empty($coupen)){
+                    
+                    $totalbill = $request->totalbill;
+                    
+                }
+                else{
+                    if($request->totalbill > $request->coupen)
+                    {
+                    $totalbill = $request->totalbill - $coupen->amount;
+                    }
+                    else{
+                        $totalbill = $request->totalbill;
+                    }
+                }
+              
+                return Response::json(['success' => $totalbill], 200);    
+                
+        }
+    }
 }

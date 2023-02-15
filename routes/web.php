@@ -25,6 +25,8 @@ use App\Http\Controllers\HomeController;
 */
 Route::get('/', 'HomeController@index')->name('home');
 Route::resource('check_orders','HomeController')->except('index');
+Route::post('/discount/submit', 'HomeController@applydiscount')->name('discount.submit');
+
 
 Route::get('/login', function () {
     return view('auth.login');
