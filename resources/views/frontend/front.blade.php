@@ -486,7 +486,6 @@
 @endsection
 @push('custom-scripts')
     <script>
-     
         $(document).ready(function() {
             function validate() {
                 var sum = 0; 
@@ -522,7 +521,7 @@
                 validate();
             });
         
-            });
+        });
     </script>
    
     
