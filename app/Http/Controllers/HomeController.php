@@ -36,7 +36,7 @@ class HomeController extends Controller
         $time_slots     = TimeSlots::all();
 
 
-        return view('front_home' ,compact('rooms' ,'bathrooms' ,'services','discounts','cleaning_types','time_slots'));
+        return view('frontend.front' ,compact('rooms' ,'bathrooms' ,'services','discounts','cleaning_types','time_slots'));
     }
 
 
