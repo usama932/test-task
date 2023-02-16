@@ -234,21 +234,6 @@
                             </fieldset>
 
                             <fieldset>
-                                <h5 class="booking-form-heading">Discount code</h5>
-
-                                <div class="row mt-4">
-                                    <div class="col-md-6 mb-3">
-                                        <input class="form-control" id="discount" name="discount" placeholder="Discount Code (or leave this blank)" type="text">
-                                         <small id="valid" class="form-text text-success"></small>
-                                         <small id="invalid" class="form-text text-danger"></small>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <button type="button" id="submitdiscount"  class="btn btn-secondary rounded-1 w-100 py-2 text-uppercase">Apply</button>
-                                    </div>
-                                </div> 
-                            </fieldset>
-
-                            <fieldset>
                                 <h5 class="booking-form-heading">When would you like us to come?</h5>
 
                                 <div class="row mt-4">
@@ -314,6 +299,21 @@
                                 </div> 
                             </fieldset>
 
+                            <fieldset>
+                                <h5 class="booking-form-heading">Discount code</h5>
+
+                                <div class="row mt-4">
+                                    <div class="col-md-6 mb-3">
+                                        <input class="form-control" id="discount" name="discount" placeholder="Discount Code (or leave this blank)" type="text">
+                                         <small id="valid" class="form-text text-success"></small>
+                                         <small id="invalid" class="form-text text-danger"></small>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <button type="button" id="submitdiscount"  class="btn btn-secondary rounded-1 w-100 py-2 text-uppercase">Apply</button>
+                                    </div>
+                                </div> 
+                            </fieldset>
+                            
                             <fieldset>
                                 <h5 class="booking-form-heading">STEP 5: SELECT PAYMENT</h5>
                                 <p>Enter your card information below. You will be charged after service has been rendered.</p>
@@ -609,10 +609,10 @@
                         
                          document.querySelector('input[name="totalbill"]').value = data.totalbill ?? ''; 
                          $('#result').html(data.totalbill);
-                          if(data.result == 'Valid Coupen' )
+                            if(data.result == 'Valid Coupen' )
                             {
-                                 $('#invalid').hide();
-                                  $('#valid').show();
+                                $('#invalid').hide();
+                                $('#valid').show();
                                 $('#valid').html(data.result);
                                 } else {
                                     $('#valid').hide();
