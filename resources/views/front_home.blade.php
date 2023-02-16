@@ -125,7 +125,7 @@
                         <div class="form-group col-md-4">
                             <div class="form-check">
                                 <div id="checker">
-                                    <input type="checkbox" class="form-check-input" name="cleaning_types[]" id="add-dj" value="{{$cleaning_type->id}}" data-price="{{ $cleaning_type->price }}">
+                                    <input type="checkbox" class="form-check-input" name="cleaning_types[]"  value="{{$cleaning_type->id}}" data-price="{{ $cleaning_type->price }}">
                                 </div>
                                 <label class="form-check-label" for="flexCheckDefault">
                                 {{$cleaning_type->title}}&nbsp ${{$cleaning_type->price}}

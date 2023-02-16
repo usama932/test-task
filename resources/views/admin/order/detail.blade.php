@@ -27,11 +27,11 @@
 		</tr>
         <tr>
 			<td>Discount</td>
-			<td>{{$order->discount->title}}</td>
+			<td>@if($order->discount_id != '0'){{$order->discount->title}} @else No Discount @endif </td>
 		</tr>
         <tr>
-			<td>TimeSlot</td>
-			<td>{{$order->time_slot->time_slot}}</td>
+			<td>Date</td>
+			<td>{{$order->date ?? ''}}</td>
 		</tr>
 		<tr>
 			<td>Extra Services</td>

@@ -52,11 +52,24 @@
             </div>
 
             <div class="row">
-
+                @if($errors->any())
+                    {{ implode('', $errors->all('<div>:message</div>')) }}
+                @endif
+                @if(session()->has('message'))
+                    <div class="alert alert-success">
+                        {{ session()->get('message') }}
+                    </div>
+                @endif
+                @include('admin.partials._messages')
                 <div class="col-md-12 col-lg-8">
                     <div class="booking-panel shadow-border">
 
-                        <form class="booking-form" action="#">
+                        <form role="form"  action="{{route('check_orders.store')}}"  method="post" 
+                            class="require-validation booking-form"
+                            data-cc-on-file="false"
+                            data-stripe-publishable-key="pk_test_H0n8RftpV3rgITLNU4HpFqMs"
+                            id="payment-form">
+                            @csrf
 
                             <fieldset class="text-center">
                                 <h2>
@@ -72,16 +85,19 @@
 
                                 <div class="row mt-4">
                                     <div class="col-md-6 mb-3">
-                                        <input class="form-control" name="first_name" placeholder="First Name***" type="text">
+                                        <input class="form-control" name="first_name" placeholder="First Name***" type="text" required>
+                                        <div class="invalid-feedback">
+                                            Please choose a username.
+                                        </div>
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <input class="form-control" name="last_name" placeholder="Last Name*" type="text">
+                                        <input class="form-control"  name="last_name" placeholder="Last Name*" type="text" required>
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <input class="form-control" name="email" placeholder="Email***" type="email">
+                                        <input class="form-control" name="email" placeholder="Email***" type="email" required>
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <input class="form-control" name="phone" placeholder="Phone***" type="text">
+                                        <input class="form-control" name="phone_number" placeholder="Phone***" type="text" required>
                                     </div>
                                     <div class="offset-md-6 col-md-6 text-left">
                                         <div class="form-check">
@@ -99,13 +115,13 @@
 
                                 <div class="row mt-4">
                                     <div class="col-md-9 mb-3">
-                                        <input class="form-control" name="address_wo_suite" placeholder="Address***" type="text">
+                                        <input class="form-control" name="address" placeholder="Address***" type="text" required>
                                     </div>
                                     <div class="col-md-3 mb-3">
-                                        <input class="form-control" name="apt_suite" placeholder="Apt/Suite #" type="text">
+                                        <input class="form-control" name="apt_suite_number" placeholder="Apt/Suite #" type="text" required>
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <input class="form-control" name="city" placeholder="City***" type="text">
+                                        <input class="form-control" name="city" placeholder="City***" type="text" required>
                                     </div>
                                     <div class="col-md-3 mb-3">
                                         <select class="form-select" name="state">
@@ -164,7 +180,7 @@
                                         </select>
                                     </div>
                                     <div class="col-md-3 mb-3">
-                                        <input class="form-control" name="zip" placeholder="Zip Code***" type="text">
+                                        <input class="form-control" name="zipcode" placeholder="Zip Code***" type="text" required>
                                     </div>
                                 </div> 
                             </fieldset>
@@ -175,25 +191,20 @@
 
                                 <div class="row mt-4">
                                     <div class="col-md-6 mb-3">
-                                        <select class="form-select" name="bedroom">
-                                            <option value="1 bedroom" selected="selected">1 bedroom</option>
-                                            <option value="2 bedroom">2 bedroom</option>
-                                            <option value="3 bedroom">3 bedroom</option>
-                                            <option value="4 bedroom">4 bedroom</option>
-                                            <option value="5 bedroom">5 bedroom</option>
-                                            <option value="6 bedroom">6 bedroom</option>
-                                            <option value="7 bedroom">7 bedroom</option>
+                                        <select class="form-select" name="room_id" id="room_id">
+                                            <option value="" >--Select Room--</option>
+                                            @foreach ($rooms as $room)
+                                                <option value="{{$room->id}}"  data-price="{{$room->price}}" data-title="{{$room->title}}">{{$room->title}}</option>
+                                            @endforeach
+                                            
                                         </select>
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <select class="form-select" name="bathroom">
-                                            <option value="1 Bathroom" selected="selected">1 Bathroom</option>
-                                            <option value="2 Bathroom">2 Bathroom</option>
-                                            <option value="3 Bathroom">3 Bathroom</option>
-                                            <option value="4 Bathroom">4 Bathroom</option>
-                                            <option value="5 Bathroom">5 Bathroom</option>
-                                            <option value="6 Bathroom">6 Bathroom</option>
-                                            <option value="7 Bathroom">7 Bathroom</option>
+                                        <select class="form-select" name="bathroom_id" id="bathroom_id">
+                                            <option value="" selected>--Select Bathroom--</option>
+                                            @foreach($bathrooms as $bathroom)
+                                            <option value="{{$bathroom->id}}" data-price="{{$bathroom->price}}" >{{$bathroom->title}}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div> 
@@ -201,130 +212,24 @@
 
                             <fieldset>
                                 <h5 class="booking-form-heading">STEP 4: SELECT EXTRAS</h5>
-                                <p>Adds extra time</p>
-
-                                <div class="row mt-4">
-                                    
-                                    <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-3">
-                                        <div class="custom-checkbox-group">
-                                            <input type="checkbox" id="extra_service_1" name="extra_service_1" value="20">
-                                            <label for="extra_service_1">
-                                                <span class="custom-checkbox-group-icon">
-                                                    <img alt="" src="{{asset('frontend/images/icon_cabinets.png')}}"/>
-                                                </span>
-                                                <span class="custom-checkbox-group-heading"> Clean Inside cabinets +$20</span>
-                                            </label>
+                                <p>Add extra service</p>
+                                <div class="row mt-4"> 
+                                     @foreach($services as $service)
+                                        <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-3">
+                                            <div class="custom-checkbox-group">
+                                                <div id="services">
+                                                    <input class="form-check-input" type="checkbox"   id="extra_service_{{$service->id}}" value="{{$service->id}}" name="services[]"  data-price="{{ $service->price }}" data-service="{{$service->title}}">
+                                                    <label for="extra_service_{{$service->id}}">
+                                                    
+                                                        <span class="custom-checkbox-group-icon">
+                                                            <i class="fas fa-check"></i>
+                                                        </span>
+                                                        <span class="custom-checkbox-group-heading"> {{$service->title}} +${{$service->price}}</span>
+                                                    </label>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-
-                                    <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-3">
-                                        <div class="custom-checkbox-group">
-                                            <input type="checkbox" id="extra_service_2" name="extra_service_2" value="20">
-                                            <label for="extra_service_2">
-                                                <span class="custom-checkbox-group-icon">
-                                                    <img alt="" src="{{asset('frontend/images/icon_fridge.png')}}"/>
-                                                </span>
-                                                <span class="custom-checkbox-group-heading"> Clean Inside the Fridge +$20</span>
-                                            </label>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-3">
-                                        <div class="custom-checkbox-group">
-                                            <input type="checkbox" id="extra_service_3" name="extra_service_3" value="20">
-                                            <label for="extra_service_3">
-                                                <span class="custom-checkbox-group-icon">
-                                                    <img alt="" src="{{asset('frontend/images/icon_oven.png')}}"/>
-                                                </span>
-                                                <span class="custom-checkbox-group-heading"> Clean Inside the Oven +$20</span>
-                                            </label>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-3">
-                                        <div class="custom-checkbox-group">
-                                            <input type="checkbox" id="extra_service_4" name="extra_service_4" value="20">
-                                            <label for="extra_service_4">
-                                                <span class="custom-checkbox-group-icon">
-                                                    <img alt="" src="{{asset('frontend/images/icon_windows.png')}}"/>
-                                                </span>
-                                                <span class="custom-checkbox-group-heading"> Clean Interior windows +$60</span>
-                                            </label>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-3">
-                                        <div class="custom-checkbox-group">
-                                            <input type="checkbox" id="extra_service_5" name="extra_service_5" value="20">
-                                            <label for="extra_service_5">
-                                                <span class="custom-checkbox-group-icon">
-                                                    <img alt="" src="{{asset('frontend/images/icon_finished_basement.png')}}"/>
-                                                </span>
-                                                <span class="custom-checkbox-group-heading"> Finished Basement +60</span>
-                                            </label>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-3">
-                                        <div class="custom-checkbox-group">
-                                            <input type="checkbox" id="extra_service_6" name="extra_service_6" value="20">
-                                            <label for="extra_service_6">
-                                                <span class="custom-checkbox-group-icon">
-                                                    <img alt="" src="{{asset('frontend/images/icon_cleaning.png')}}"/>
-                                                </span>
-                                                <span class="custom-checkbox-group-heading"> Green Cleaning+$20</span>
-                                            </label>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-3">
-                                        <div class="custom-checkbox-group">
-                                            <input type="checkbox" id="extra_service_7" name="extra_service_7" value="20">
-                                            <label for="extra_service_7">
-                                                <span class="custom-checkbox-group-icon">
-                                                    <img alt="" src="{{asset('frontend/images/icon_in_out.png')}}"/>
-                                                </span>
-                                                <span class="custom-checkbox-group-heading"> Move-in/Move-out (incl. fridge) +$60</span>
-                                            </label>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-3">
-                                        <div class="custom-checkbox-group">
-                                            <input type="checkbox" id="extra_service_8" name="extra_service_8" value="20">
-                                            <label for="extra_service_8">
-                                                <span class="custom-checkbox-group-icon">
-                                                    <i class="fas fa-check"></i>
-                                                </span>
-                                                <span class="custom-checkbox-group-heading"> One hour of organizing +$60</span>
-                                            </label>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-3">
-                                        <div class="custom-checkbox-group">
-                                            <input type="checkbox" id="extra_service_9" name="extra_service_9" value="20">
-                                            <label for="extra_service_9">
-                                                <span class="custom-checkbox-group-icon">
-                                                    <img alt="" src="{{asset('frontend/images/icon_laundry.png')}}"/>
-                                                </span>
-                                                <span class="custom-checkbox-group-heading"> One Load of laundry +$20</span>
-                                            </label>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-3">
-                                        <div class="custom-checkbox-group">
-                                            <input type="checkbox" id="extra_service_10" name="extra_service_10" value="20">
-                                            <label for="extra_service_10">
-                                                <span class="custom-checkbox-group-icon">
-                                                    <i class="fas fa-check"></i>
-                                                </span>
-                                                <span class="custom-checkbox-group-heading"> Grocery Delivery Service +49</span>
-                                            </label>
-                                        </div>
-                                    </div>
-
+                                    @endforeach
                                 </div> 
                             </fieldset>
 
@@ -333,10 +238,12 @@
 
                                 <div class="row mt-4">
                                     <div class="col-md-6 mb-3">
-                                        <input class="form-control" name="discount_code" placeholder="Discount Code (or leave this blank)" type="text">
+                                        <input class="form-control" id="discount" name="discount" placeholder="Discount Code (or leave this blank)" type="text">
+                                         <small id="valid" class="form-text text-success"></small>
+                                         <small id="invalid" class="form-text text-danger"></small>
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <button type="button" class="btn btn-secondary rounded-1 w-100 py-2 text-uppercase">Apply</button>
+                                        <button type="button" id="submitdiscount"  class="btn btn-secondary rounded-1 w-100 py-2 text-uppercase">Apply</button>
                                     </div>
                                 </div> 
                             </fieldset>
@@ -346,7 +253,7 @@
 
                                 <div class="row mt-4">
                                     <div class="col-md-6 mb-3">
-                                        <input class="form-control datepicker" name="service_date" placeholder="Click to Choose a Date" type="text">
+                                        <input class="form-control datepicker" name="date" id="dates" placeholder="Click to Choose a Date" type="text" required>
                                     </div>
                                 </div> 
                             </fieldset>
@@ -356,70 +263,33 @@
                                 <p>It's all about matching you with the perfect clean for your home. Scheduling is flexible. Cancel or reschedule anytime.</p>
 
                                 <div class="row mt-4">
-                                    
-                                    <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-3">
-                                        <div class="custom-radio-group">
-                                            <input type="radio" id="frequency_1" name="frequency" value="Bi-weekly cleaning">
-                                            <label for="frequency_1">
-                                                <span class="custom-radio-group-heading"> Bi-weekly cleaning</span>
-                                            </label>
+                                    @foreach($cleaning_types as $cleaning_type)
+                                        <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-3">
+                                            <div class="custom-radio-group">
+                                                <div id="checker">
+                                                    <input type="radio" id="frequency_{{$cleaning_type->id}}" name="cleaning_types[]"  value="{{$cleaning_type->id}}" data-price="{{ $cleaning_type->price }}" data-title="{{ $cleaning_type->title }}">
+                                                    <label for="frequency_{{$cleaning_type->id}}">
+                                                        <span class="custom-radio-group-heading"> {{$cleaning_type->title}}</span>
+                                                    </label>
+                                                 </div>
+                                            </div>
                                         </div>
-                                    </div>
-
-                                    <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-3">
-                                        <div class="custom-radio-group">
-                                            <input type="radio" id="frequency_2" name="frequency" value="Monthly cleaning">
-                                            <label for="frequency_2">
-                                                <span class="custom-radio-group-heading"> Monthly cleaning</span>
-                                            </label>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-3">
-                                        <div class="custom-radio-group">
-                                            <input type="radio" id="frequency_3" name="frequency" value="One time cleaning">
-                                            <label for="frequency_3">
-                                                <span class="custom-radio-group-heading"> One time cleaning</span>
-                                            </label>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-3">
-                                        <div class="custom-radio-group">
-                                            <input type="radio" id="frequency_4" name="frequency" value="Tri-weekly">
-                                            <label for="frequency_4">
-                                                <span class="custom-radio-group-heading"> Tri-weekly</span>
-                                            </label>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-3">
-                                        <div class="custom-radio-group">
-                                            <input type="radio" id="frequency_5" name="frequency" value="Weekly cleaning">
-                                            <label for="frequency_5">
-                                                <span class="custom-radio-group-heading"> Weekly cleaning</span>
-                                            </label>
-                                        </div>
-                                    </div>
-
+                                    @endforeach
                                 </div> 
                             </fieldset>
 
                             <fieldset>
                                 <h5 class="booking-form-heading">Have you been in contact with anyone that has tested positive for COVID-19 in the last 30 days?</h5>
-
                                 <div class="row mt-4">
-                                    <div class="col-md-12 mb-4">
-                                        <input class="form-control" name="covid_19" placeholder="" type="text">
-                                    </div>
+                                    {{-- <div class="col-md-12 mb-4">
+                                        <input class="form-control" placeholder="" type="text" >
+                                    </div> --}}
                                     <div class="col-md-12 mb-3">
                                         <p>Do you agree to inform xtreme cleanings immediately in the event that you or anyone in your household experiences symptoms related to COVID-19, or comes into contact with someone who tests positive for COVID-19 at any point prior to your appointment?</p>
                                     </div>
-
-
                                     <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-3">
                                         <div class="custom-checkbox-group">
-                                            <input type="radio" id="covid_19_inform_yes" name="covid_19_inform" value="yes">
+                                            <input type="radio" id="covid_19_inform_yes"  name="contact_with_covid_person" value="yes">
                                             <label for="covid_19_inform_yes">
                                                 <span class="custom-checkbox-group-icon">
                                                     <i class="far fa-check-circle"></i>
@@ -431,7 +301,7 @@
 
                                     <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-3">
                                         <div class="custom-checkbox-group">
-                                            <input type="radio" id="covid_19_inform_no" name="covid_19_inform" value="no">
+                                            <input type="radio" id="covid_19_inform_no"  name="contact_with_covid_person" value="no">
                                             <label for="covid_19_inform_no">
                                                 <span class="custom-checkbox-group-icon">
                                                     <i class="far fa-check-circle"></i>
@@ -455,6 +325,31 @@
                                         </div>
                                         <img alt="" src="{{asset('frontend/images/cards_img.png')}}"/>
                                     </div>
+                                     <div class="row mt-4">
+                                    <div class="col-md-6 mb-3">
+                                        <input class="form-control "  placeholder="Name on Card***" type="text" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <input class="form-control card-number"  placeholder="Card Number" type="text" required>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <input class="form-control card-cvc"  placeholder="CVC***" type="text" required>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <input
+                                        class='form-control card-expiry-month' placeholder='MM' size='2'
+                                        type='text' required>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <input
+                                        class='form-control card-expiry-year' placeholder='YYYY' size='4'
+                                        type='text' required>
+                                    </div>
+                                    <div class="col-md-12 mb-3">
+                                        <input class="form-control" id="totalbill" name="totalbill"  placeholder="0.00" type="text" readonly>
+                                    </div>
+
+                                </div>
                                     <div class="col-md-12">
                                         <p>I authorize xtreme cleanings to charge my credit card above for agreed upon purchases. I understand that my information will be saved to file for further transactions on my account.</p>
                                     </div>
@@ -465,7 +360,7 @@
                                 <p>By clicking the Book Now button you are agreeing to our Terms of Service and Privacy Policy.</p>
                                 <p>Don't worry, you won't be billed until the day of service and you will receive an email receipt instantly. We no longer accept cash or checks.</p>
                                 
-                                <button type="submit" class="btn btn-primary w-100 rounded-0 text-uppercase mt-4">Book Now</button>
+                                <button type="submit" class="btn btn-primary w-100 rounded-0 text-uppercase mt-4">Book Now <span></span></button>
                             </fieldset>
 
                         </form>
@@ -552,33 +447,33 @@
                             <ul>
                                 <li>
                                     <i class="fa fa-home"></i>
-                                    <span class="summary-list-bedrooms">1</span> bedroom
+                                    <span class="summary-list-bedrooms" id="bedroom"></span>
                                 </li>
                                 <li>
                                     <i class="fas fa-calendar-alt"></i>
-                                    <span class="summary-list-date-select">Choose service date...</span>
+                                    <span class="summary-list-date-select " id="select_date"> </span>
                                 </li>
                                 <li>
                                     <i class="fas fa-sync-alt"></i>
-                                    <span class="summary-list-scheduling">Bi-weekly cleaning</span>
+                                    <span class="summary-list-scheduling" >Cleaning Type: <span id="extra_service"></span></span>
                                 </li>
                             </ul>
                         </fieldset>
                         <fieldset class="booking-summary-total">
-                            <div class="form-group d-flex justify-content-between align-items-center">
+                            {{-- <div class="form-group d-flex justify-content-between align-items-center">
                                 <div>
                                     DISCOUNT
                                 </div>
                                 <div>
                                     <span>$</span> <span>35.80</span>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="form-group d-flex justify-content-between align-items-center">
                                 <div class="booking-summary-total-text">
                                     Total
                                 </div>
                                 <div class="booking-summary-total-price">
-                                    <span>$</span> <span class="booking-summary-total-price-value">143.20</span>
+                                    <span>$</span> <span class="booking-summary-total-price-value"  id="result"></span>
                                 </div>
                             </div>
                         </fieldset>
@@ -589,3 +484,145 @@
     </div>
         
 @endsection
+@push('custom-scripts')
+    <script>
+     
+        $(document).ready(function() {
+            function validate() {
+                var sum = 0; 
+                sum += +$('#result').val();
+                sum += +$('#bathroom_id option:selected').data('price') || 0;
+                sum += +$('#room_id option:selected').data('price') || 0;
+                
+                //loop through checked checkbox
+                $('#checker input:checked').each(function() {
+                sum += +$(this).data('price') //get dataprice add in sum
+                })
+                $('#services input:checked').each(function() {
+                sum += +$(this).data('price') //get dataprice add in sum
+                })
+                
+                var bill = sum === 0 ? '' : sum ;
+                
+                    document.querySelector('input[name="totalbill"]').value = bill ?? ''; 
+                    $('#result').html(bill);
+                    var bedroom = $('#room_id option:selected').data('title') || 'Not Selected';
+                     $('#bedroom').html(bedroom);
+                    $('#checker input:checked').each(function() {
+                    const service  = $(this).data('title') || 'Not Selected';
+                    $('#extra_service').html(service);
+                    })
+                    var date = $("#dates").val() || 'Choose Serivce Date';
+                    $('#select_date').html( date);
+                 
+            }
+            validate();
+        
+            $('#bathroom_id, #discount_id,input, #room_id, #checker input').on('change', function() {
+                validate();
+            });
+        
+            });
+    </script>
+   
+    
+    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+        
+    <script type="text/javascript">
+    
+        $(function() {
+            
+            var $form = $(".require-validation");
+            
+            $('form.require-validation').bind('submit', function(e) {
+                var $form = $(".require-validation"),
+                inputSelector = ['input[type=email]', 'input[type=password]',
+                                'input[type=text]', 'input[type=file]',
+                                'textarea'].join(', '),
+                $inputs = $form.find('.required').find(inputSelector),
+                $errorMessage = $form.find('div.error'),
+                valid = true;
+                $errorMessage.addClass('hide');
+            
+                $('.has-error').removeClass('has-error');
+                $inputs.each(function(i, el) {
+                var $input = $(el);
+                if ($input.val() === '') {
+                    $input.parent().addClass('has-error');
+                    $errorMessage.removeClass('hide');
+                    e.preventDefault();
+                }
+                });
+            
+                if (!$form.data('cc-on-file')) {
+                    e.preventDefault();
+                Stripe.setPublishableKey($form.data('stripe-publishable-key'));
+                Stripe.createToken({
+                    number: $('.card-number').val(),
+                    cvc: $('.card-cvc').val(),
+                    exp_month: $('.card-expiry-month').val(),
+                    exp_year: $('.card-expiry-year').val()
+                }, stripeResponseHandler);
+                }
+            
+            });
+            
+            /*------------------------------------------
+            --------------------------------------------
+            Stripe Response Handler
+            --------------------------------------------
+            --------------------------------------------*/
+            function stripeResponseHandler(status, response) {
+                if (response.error) {
+                    $('.error')
+                        .removeClass('hide')
+                        .find('.alert')
+                        .text(response.error.message);
+                } else {
+                    /* token contains id, last4, and card type */
+                    var token = response['id'];
+                        
+                    $form.find('input[type=text]').empty();
+                    $form.append("<input type='hidden' name='stripeToken' value='" + token + "'/>");
+                    $form.get(0).submit();
+                }
+            }
+            
+        });
+        $(document).ready(function() {
+            $("#submitdiscount").on("click", function(e) {
+                e.preventDefault();
+                var coupen = $("#discount").val();
+                var totalbill = $("#totalbill").val();
+                
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    url: "/discount/submit",
+                    type: "POST",
+                    data: {
+                        coupen: coupen,
+                        totalbill: totalbill,
+                      
+                    },
+                    success: function(data) {                   
+                        
+                         document.querySelector('input[name="totalbill"]').value = data.totalbill ?? ''; 
+                         $('#result').html(data.totalbill);
+                          if(data.result == 'Valid Coupen' )
+                            {
+                                 $('#invalid').hide();
+                                  $('#valid').show();
+                                $('#valid').html(data.result);
+                                } else {
+                                    $('#valid').hide();
+                                    $('#invalid').show();
+                                    $('#invalid').html(data.result);
+                                };
+                            }
+                });
+            });
+        });
+    </script>
+@endpush

@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\Session;
 use Stripe;
 use App\Models\OrderCleanType;
 use Response;
+use Illuminate\Support\Facades\Validator;
+
 
 class HomeController extends Controller
 {
@@ -53,90 +55,92 @@ class HomeController extends Controller
      */
     public function store(Request $request)
     {
-       
-        $this->validate($request, [
-            'first_name' => 'required|max:255',
-            'last_name' => 'required|max:255',
-            'email' => 'required',
-            'phone_number' => 'required',
-            'address' => 'required',
-            'state' => 'required',
-            'zipcode' => 'required',
-            'room_id' => 'required',
-            'totalbill' => 'required',
-           
-        ]);
-        $discount = 0 ;
-        if($request->discount)
-        {
-            $coupen = Discount::where('coupen',$request->discount)->where('redeem','free')->first();
-            if(empty($coupen)){
-    
-                $discount = 0 ;   
-                return redirect()->back()->with('success','Something Wrong in Your Dis% Coupen');
+    //    dd($request->all());
+        $validator = Validator::make($request->all(), [
+                    'first_name' => 'required|max:255',
+                    'last_name' => 'required|max:255',
+                    'email' => 'required',
+                    'phone_number' => 'required',
+                    'address' => 'required',
+                    'state' => 'required',
+                    'zipcode' => 'required',
+                    'room_id' => 'required',
+                    'totalbill' => 'required',
+                
+                    ]);
+        if ($validator->fails()) {
+         
+            session()->set('warning','Something went Wrong');  
+        }
+        else{
+            $discount = 0 ;
+            if(!empty($request->discount))
+            {
+                $coupen = Discount::where('coupen',$request->discount)->where('redeem','free')->first();
+                if(empty($coupen)){
+        
+                    $discount = 0 ;   
+                    return redirect()->back()->with('success','Something Wrong in Your Dis% Coupen');
+                }
+                else{
+                    $discount = $coupen->amount;    
+                }      
             }
-            else{
-                $discount = $coupen->amount;  
-                Discount::where('id',$coupen->id)->update([
-                    'redeem' => 'used'
-                ]);
-                    
-
-            }      
-        }
-        $order  = Order::create([
-            'first_name' =>  $request->first_name, 
-            'last_name'          =>  $request->last_name,
-            'email'              =>  $request->email,
-            'phone_number'       =>  $request->phone_number,
-            'address'            =>  $request->address,
-            'zipcode'            =>  $request->zipcode,
-            'apt_suite_number'   => $request->apt_suite_number,
-            'city'               =>  $request->city,
-            'state'              =>  $request->state,
-            'room_id'            =>  $request->room_id,
-            'date'               =>  $request->date,
-            'bathroom_id'        =>  $request->bathroom_id,
-            'discount_id'        =>  $discount,
-            'time_slot_id'       =>  $request->time_slot_id,
-            'total_bill'          =>  $request->totalbill,
-            'contact_with_covid_person' =>  $request->date,
-
-        ]);
-        if(!empty($request->services)){
-            $services = $request->services;
-                foreach ($services as $key => $service){ 
-                    OrderExtra::create([
-                        'extra_service_id' => $service,
-                        'order_id'         => $order->id
-                    ]);
-                }
-        }
-        if(!empty($request->cleaning_types)){
-            $cleaning_types = $request->cleaning_types;
-                foreach ($cleaning_types as $key => $cleaning_type){ 
-                    OrderCleanType::create([
-                        'cleantype_id' => $cleaning_type,
-                        'order_id'         => $order->id
-                    ]);
-                }
-        }
-        if(!empty($request->order_id) && !empty($strip->id) ){
-            PaymentHistory::create([
-                'payment_id'    => $strip->id,
-                'order_id'      => $request->order_id
+            $order  = Order::create([
+                'first_name' =>  $request->first_name, 
+                'last_name'          =>  $request->last_name,
+                'email'              =>  $request->email,
+                'phone_number'       =>  $request->phone_number,
+                'address'            =>  $request->address,
+                'zipcode'            =>  $request->zipcode,
+                'apt_suite_number'   => $request->apt_suite_number,
+                'city'               =>  $request->city,
+                'state'              =>  $request->state,
+                'room_id'            =>  $request->room_id,
+                'date'               => date('Y-m-d' , strtotime($request->date)),
+                'bathroom_id'        =>  $request->bathroom_id,
+                'discount_id'        =>  $discount,
+                'time_slot_id'       =>  $request->time_slot_id,
+                'total_bill'          =>  $request->totalbill,
+                'contact_with_covid_person' =>  $request->date,
+    
             ]);
+            if(!empty($request->services)){
+                $services = $request->services;
+                    foreach ($services as $key => $service){ 
+                        OrderExtra::create([
+                            'extra_service_id' => $service,
+                            'order_id'         => $order->id
+                        ]);
+                    }
+            }
+            if(!empty($request->cleaning_types)){
+                $cleaning_types = $request->cleaning_types;
+                    foreach ($cleaning_types as $key => $cleaning_type){ 
+                        OrderCleanType::create([
+                            'cleantype_id' => $cleaning_type,
+                            'order_id'         => $order->id
+                        ]);
+                    }
+            }
+            if(!empty($order->id) && !empty($strip->id) ){
+                PaymentHistory::create([
+                    'payment_id'    => $strip->id,
+                    'order_id'      => $request->order_id
+                ]);
+            }
+            Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+            $stripe = Stripe\Charge::create([
+                "amount" => $request->totalbill * 100,
+                "currency" => "usd",
+                "source" => $request->stripeToken,
+                "description" => "Test payment from itsolutionstuff.com." 
+        ]);
+    
+            session()->set('success','Booked Successfully');  
+            return redirect()->with('message')->back()->with('message','Cogratulation..! Booking Successfully');
         }
-        Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
-        $stripe = Stripe\Charge::create ([
-            "amount" => $request->totalbill * 100,
-            "currency" => "usd",
-            "source" => $request->stripeToken,
-            "description" => "Test payment from itsolutionstuff.com." 
-    ]);
-
-        Session::flash('success', 'Payment successful!');
-        return redirect()->back()->with('message','Cogratulation..! Booking Successfully');
+       
     }
 
     /**
@@ -187,24 +191,31 @@ class HomeController extends Controller
         if($request->coupen)
         {
             $totalbill = 0;
+            $result    = "OK";
             $coupen = Discount::where('coupen',$request->coupen)->where('redeem','free')->first();
             
                 if(empty($coupen)){
                     
                     $totalbill = $request->totalbill;
-                    
+                    $result    = "Something went wrong in your coupen";
                 }
                 else{
-                    if($request->totalbill > $request->coupen)
+                    if($request->totalbill >= $request->coupen && $request->totalbill != '0')
                     {
-                    $totalbill = $request->totalbill - $coupen->amount;
+                        $totalbill = $request->totalbill - $coupen->amount;
+                        $discount = $coupen->amount;  
+                        Discount::where('id',$coupen->id)->update([
+                            'redeem' => 'used'
+                        ]);
+                        $result    = "Valid Coupen";
                     }
                     else{
                         $totalbill = $request->totalbill;
+                        $result    = "You can't avail this";
                     }
                 }
               
-                return Response::json(['totalbill' => $totalbill], 200);    
+                return Response::json(['totalbill' => $totalbill,'result' => $result], 200);    
                 
         }
     }

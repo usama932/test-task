@@ -5,8 +5,8 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" href="images/favicon.png" type="image/x-icon">
-
+    <link rel="icon" href="{{asset('frontend/images/favicon.png')}}" type="image/x-icon">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -16,15 +16,16 @@
     <link href="{{asset('frontend/css/bootstrap.min.css')}}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
     <!-- MAIN SITE STYLE SHEETS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link href="{{asset('frontend/css/main.css')}}" rel="stylesheet">
-
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.js"></script>  
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css">
     <title>Book in 60 seconds - Xtreme Cleanings</title>
 
 </head>
 
 <body class="d-flex flex-column min-vh-100 justify-content-center justify-content-md-between">
 
-    <!-- Header Start -->
     <header>
         <div class="header-top d-none d-lg-block">
             <div class="container">
@@ -171,17 +172,36 @@
     <!-- Js -->
     <script src="{{asset('frontend/js/jquery-3.6.0.min.js')}}"></script>
     <script src="{{asset('frontend/js/bootstrap.bundle.min.js')}}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
     <script src="{{asset('frontend/js/sticky.min.js')}}"></script>
     <script src="{{asset('frontend/js/main.js')}}"></script>
+    
+    <script>  
+        @if(Session::has('success'))  
+                toastr.success("{{ Session::get('success') }}");  
+        @endif  
+        @if(Session::has('info'))  
+                toastr.info("{{ Session::get('info') }}");  
+        @endif  
+        @if(Session::has('warning'))  
+                toastr.warning("{{ Session::get('warning') }}");  
+        @endif  
+        @if(Session::has('error'))  
+                toastr.error("{{ Session::get('error') }}");  
+        @endif  
+        </script>  
     <script>
         var sticky = new Sticky('.selector');
         $(".datepicker").datepicker({
             autoclose: true,
+            formatSubmit: 'yyyy-mm-dd',
             todayHighlight: true,
             showDropdowns: true,
         })
     </script>
+    @stack('custom-scripts')
     
 </body>
 
