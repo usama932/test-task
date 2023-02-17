@@ -16,10 +16,15 @@
     <link href="{{asset('frontend/css/bootstrap.min.css')}}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
     <!-- MAIN SITE STYLE SHEETS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0- 
+     alpha/css/bootstrap.css" rel="stylesheet">
+	
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link href="{{asset('frontend/css/main.css')}}" rel="stylesheet">
-    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.js"></script>  
-    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css">
+    <link rel="stylesheet" type="text/css" 
+     href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+	
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <title>Book in 60 seconds - Xtreme Cleanings</title>
 
 </head>
@@ -177,21 +182,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
     <script src="{{asset('frontend/js/sticky.min.js')}}"></script>
     <script src="{{asset('frontend/js/main.js')}}"></script>
-    
-    <script>  
-        @if(Session::has('success'))  
-                toastr.success("{{ Session::get('success') }}");  
-        @endif  
-        @if(Session::has('info'))  
-                toastr.info("{{ Session::get('info') }}");  
-        @endif  
-        @if(Session::has('warning'))  
-                toastr.warning("{{ Session::get('warning') }}");  
-        @endif  
-        @if(Session::has('error'))  
-                toastr.error("{{ Session::get('error') }}");  
-        @endif  
-        </script>  
     <script>
         var sticky = new Sticky('.selector');
         $(".datepicker").datepicker({
@@ -202,7 +192,43 @@
         })
     </script>
     @stack('custom-scripts')
-    
+    <script>
+        @if(Session::has('success'))
+        toastr.options =
+        {
+            "closeButton" : true,
+            "progressBar" : true
+        }
+                toastr.success("{{ session('success') }}");
+        @endif
+
+        @if(Session::has('error'))
+        toastr.options =
+        {
+            "closeButton" : true,
+            "progressBar" : true
+        }
+                toastr.error("{{ session('warning') }}");
+        @endif
+
+        @if(Session::has('info'))
+        toastr.options =
+        {
+            "closeButton" : true,
+            "progressBar" : true
+        }
+                toastr.info("{{ session('error') }}");
+        @endif
+
+        @if(Session::has('warning'))
+        toastr.options =
+        {
+            "closeButton" : true,
+            "progressBar" : true
+        }
+                toastr.warning("{{ session('info') }}");
+        @endif
+    </script>
 </body>
 
 </html>

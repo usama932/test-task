@@ -78,7 +78,7 @@ class HomeController extends Controller
                       
         if ($validator->fails())
             {
-                return redirect()->back()->with('success','Something Wrong in Your Dis% Coupen');
+                return redirect()->back()->with('error','Fill Inputs Correctly');
             }
         else
             {
@@ -89,7 +89,7 @@ class HomeController extends Controller
                 if(empty($coupen)){
         
                     $discount = 0 ;   
-                    return redirect()->back()->with('success','Something Wrong in Your Dis% Coupen');
+                    return redirect()->back()->with('warning','Something Wrong in Your Dis% Coupen');
                 }
                 else{
                     $discount = $coupen->amount;    
