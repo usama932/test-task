@@ -67,7 +67,7 @@
                         <form role="form"  action="{{route('check_orders.store')}}"  method="post" 
                             class="require-validation booking-form"
                             data-cc-on-file="false"
-                            data-stripe-publishable-key="pk_test_H0n8RftpV3rgITLNU4HpFqMs"
+                            data-stripe-publishable-key="pk_test_51Mb1sVGG67FYxG0UavwoA2UNx7exeQCHi4AT96qetl431Hr9Hk20o0XFghQEKAQ8069yKjji7LZm39nbBBcIO6QS004zW0iPqD"
                             id="payment-form">
                             @csrf
 
