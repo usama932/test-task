@@ -23,7 +23,7 @@ class PagesController extends Controller
         $columns = array(
 			0 => 'id',
 			1 => 'name',
-			4 => 'created_at',
+			4 => 'page',
 			5 => 'action'
 		);
 		
@@ -45,7 +45,7 @@ class PagesController extends Controller
 				['name', 'like', "%{$search}%"],
 			])
 				
-				->orWhere('created_at','like',"%{$search}%")
+				->orWhere('page','like',"%{$search}%")
 				->offset($start)
 				->limit($limit)
 				->orderBy($order, $dir)
@@ -55,7 +55,7 @@ class PagesController extends Controller
 				['name', 'like', "%{$search}%"],
 			])
 				->orWhere('name', 'like', "%{$search}%")
-				->orWhere('created_at','like',"%{$search}%")
+				->orWhere('page','like',"%{$search}%")
 				->count();
 		}
 		
@@ -67,7 +67,7 @@ class PagesController extends Controller
 				$edit_url = route('sections.edit',$r->id);
 				$nestedData['id'] = '<td><label class="checkbox checkbox-outline checkbox-success"><input type="checkbox" name="sections[]" value="'.$r->id.'"><span></span></label></td>';
 				$nestedData['name'] = $r->name;
-				$nestedData['created_at'] = date('d-m-Y',strtotime($r->created_at));
+				$nestedData['page'] = $r->page;
 				$nestedData['action'] = '
                                 <div>
                                 <td>

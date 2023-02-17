@@ -32,7 +32,7 @@
                                 </th>
 
                                 <th>Name</th>
-                                <th>Created At</th>
+                                <th>Page</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -105,7 +105,7 @@
                     "data": "name"
                 },
                 {
-                    "data": "created_at",
+                    "data": "page",
                     "searchable": false,
                     "orderable": false
                 },
