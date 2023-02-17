@@ -182,6 +182,21 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
     <script src="{{asset('frontend/js/sticky.min.js')}}"></script>
     <script src="{{asset('frontend/js/main.js')}}"></script>
+    
+    <script>  
+        @if(Session::has('success'))  
+                toastr.success("{{ Session::get('success') }}");  
+        @endif  
+        @if(Session::has('info'))  
+                toastr.info("{{ Session::get('info') }}");  
+        @endif  
+        @if(Session::has('warning'))  
+                toastr.warning("{{ Session::get('warning') }}");  
+        @endif  
+        @if(Session::has('error'))  
+                toastr.error("{{ Session::get('error') }}");  
+        @endif  
+    </script>  
     <script>
         var sticky = new Sticky('.selector');
         $(".datepicker").datepicker({
@@ -192,43 +207,7 @@
         })
     </script>
     @stack('custom-scripts')
-    <script>
-        @if(Session::has('success'))
-        toastr.options =
-        {
-            "closeButton" : true,
-            "progressBar" : true
-        }
-                toastr.success("{{ session('success') }}");
-        @endif
-
-        @if(Session::has('error'))
-        toastr.options =
-        {
-            "closeButton" : true,
-            "progressBar" : true
-        }
-                toastr.error("{{ session('warning') }}");
-        @endif
-
-        @if(Session::has('info'))
-        toastr.options =
-        {
-            "closeButton" : true,
-            "progressBar" : true
-        }
-                toastr.info("{{ session('error') }}");
-        @endif
-
-        @if(Session::has('warning'))
-        toastr.options =
-        {
-            "closeButton" : true,
-            "progressBar" : true
-        }
-                toastr.warning("{{ session('info') }}");
-        @endif
-    </script>
+    
 </body>
 
 </html>
