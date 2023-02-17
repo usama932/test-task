@@ -3,7 +3,7 @@
 
 @section('content')
 
-    <div class="section-top" style="background-image:url(' {{asset("frontend/images/section-top-bg.jpg")}}');">
+    <div class="section-top" style="background-image:url(' {{asset("frontend/images/section-top-bg.png")}}');">
         <div class="section-top-content d-flex flex-column align-items-center justify-content-center">
             <div class="container">
                 <div class="row">
