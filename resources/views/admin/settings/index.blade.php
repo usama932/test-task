@@ -128,7 +128,7 @@
 																       value="{{$column['value']}}"
 																><span></span>
 																 </label>
-                              </span>
+                              									</span>
 																
 														</div>
 													</div>

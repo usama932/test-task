@@ -125,7 +125,52 @@ class SettingController extends Controller
                 'place_holder'=>'Enter Copyright text',
                 'class'=>'form-control form-control-solid',
             ),
-
+            array(
+                'name'=>'test_secret_key',
+                'id'=>'test_secret_key',
+                'type'=>'text',
+                'label'=>'Test Secret Key',
+                'place_holder'=>'Test Secret Key',
+                'class'=>'form-control form-control-solid',
+                'style'=>'width:30px;max-width:100%;margin-top:12px'
+            ),
+            array(
+                'name'=>'test_publish_key',
+                'id'=>'test_publish_key',
+                'type'=>'text',
+                'label'=>'Test Publish Key',
+                'place_holder'=>'Test Publish Key',
+                'class'=>'form-control form-control-solid',
+                'style'=>'width:30px;max-width:100%;margin-top:12px'
+            ),
+            array(
+                'name'=>'server_secret_key',
+                'id'=>'server_secret_key',
+                'type'=>'text',
+                'label'=>'Server Secret Key',
+                'place_holder'=>'Server Secret Key',
+                'class'=>'form-control form-control-solid',
+                'style'=>'width:30px;max-width:100%;margin-top:12px'
+            ),
+            array(
+                'name'=>'server_publish_key',
+                'id'=>'server_publish_key',
+                'type'=>'text',
+                'label'=>'Server Publish Key',
+                'place_holder'=>'Server Publish Key',
+                'class'=>'form-control form-control-solid',
+                'style'=>'width:30px;max-width:100%;margin-top:12px'
+            ),
+            array(
+                'name'=>'tested_mode',
+                'id'=>'tested_mode',
+                'type'=>'checkbox',
+                'label'=>'Tested Mode',
+                'place_holder'=>' Tested Mode',
+                'value'=> '0',
+                'class'=>'form-control form-control-solid',
+                'style'=>'width:30px;max-width:100%;margin-top:12px'
+            ),
         );
         return view('admin.settings.index', ['title' => 'Site Setting','settings'=>$settings,
             'all_columns'=>$all_columns]);

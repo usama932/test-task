@@ -12,6 +12,7 @@ use App\Models\OrderExtra;
 use App\Models\ExtraService;
 use App\Models\Discount;
 use App\Models\CleaningType;
+use App\Models\Section;
 use App\Models\User;
 use Auth;
 use Illuminate\Support\Facades\Session;
@@ -229,5 +230,14 @@ class HomeController extends Controller
                 return Response::json(['totalbill' => $totalbill,'result' => $result], 200);    
                 
         }
+    }
+    public function getaboutus()
+    {
+        $section = Section::where('page','1')->first();
+        if(!empty($section)){
+            $section = json_decode($section->content);
+        }
+        
+        return view('frontend.about',compact('section'));
     }
 }

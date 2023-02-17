@@ -104,12 +104,12 @@
                     <div class="col-md-4">
                         <ul class="top-nav-menu d-flex">
                             <li class="top-nav-menu-item">
-                                <a href="#" class="top-nav-menu-item-link">
-                                    <span>GIFT CARDS</span>
+                                <a href="{{route('aboutus')}}" class="top-nav-menu-item-link">
+                                    <span>About Us</span>
                                 </a>
                             </li>
                             <li class="top-nav-menu-item active">
-                                <a href="#" class="top-nav-menu-item-link">
+                                <a href="{{url('/'.'#payment-form'  )}}" class="top-nav-menu-item-link">
                                     <span>BOOK IN 60 SECONDS</span>
                                 </a>
                             </li>

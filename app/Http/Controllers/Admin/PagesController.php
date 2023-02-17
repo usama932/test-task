@@ -4,11 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Room;
-use App\Models\ExtraServices;
+use App\Models\Section;
 use Illuminate\Support\Facades\Session;
 
-class RoomController extends Controller
+class PagesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,48 +16,45 @@ class RoomController extends Controller
      */
     public function index()
     {
-        $title = 'Rooms';
-	    return view('admin.rooms.index',compact('title'));
+        $title = 'Pages';
+	    return view('admin.sections.index',compact('title'));
     }
-
-    public function getRooms(Request $request){
+    public function getPages(Request $request){
         $columns = array(
 			0 => 'id',
-			1 => 'title',
-			2 => 'price',
+			1 => 'name',
 			4 => 'created_at',
 			5 => 'action'
 		);
 		
-		$totalData = Room::count();
+		$totalData = Section::count();
 		$limit = $request->input('length');
 		$start = $request->input('start');
 		$order = $columns[$request->input('order.0.column')];
 		$dir = $request->input('order.0.dir');
 		
 		if(empty($request->input('search.value'))){
-			$rooms = Room::offset($start)
+			$sections = Section::offset($start)
 				->limit($limit)
 				->orderBy($order,$dir)
 				->get();
-			$totalFiltered = Room::count();
+			$totalFiltered = Section::count();
 		}else{
 			$search = $request->input('search.value');
-			$rooms = Room::where([
-				['title', 'like', "%{$search}%"],
+			$sections = Section::where([
+				['name', 'like', "%{$search}%"],
 			])
-				->orWhere('price','like',"%{$search}%")
+				
 				->orWhere('created_at','like',"%{$search}%")
 				->offset($start)
 				->limit($limit)
 				->orderBy($order, $dir)
 				->get();
-			$totalFiltered = Room::where([
+			$totalFiltered = Section::where([
 				
-				['title', 'like', "%{$search}%"],
+				['name', 'like', "%{$search}%"],
 			])
-				->orWhere('title', 'like', "%{$search}%")
-				->orWhere('price','like',"%{$search}%")
+				->orWhere('name', 'like', "%{$search}%")
 				->orWhere('created_at','like',"%{$search}%")
 				->count();
 		}
@@ -66,20 +62,16 @@ class RoomController extends Controller
 		
 		$data = array();
 		
-		if($rooms){
-			foreach($rooms as $r){
-				$edit_url = route('rooms.edit',$r->id);
-				$nestedData['id'] = '<td><label class="checkbox checkbox-outline checkbox-success"><input type="checkbox" name="rooms[]" value="'.$r->id.'"><span></span></label></td>';
-				$nestedData['title'] = $r->title;
-				$nestedData['price'] = $r->price;
-				
+		if($sections){
+			foreach($sections as $r){
+				$edit_url = route('sections.edit',$r->id);
+				$nestedData['id'] = '<td><label class="checkbox checkbox-outline checkbox-success"><input type="checkbox" name="sections[]" value="'.$r->id.'"><span></span></label></td>';
+				$nestedData['name'] = $r->name;
 				$nestedData['created_at'] = date('d-m-Y',strtotime($r->created_at));
 				$nestedData['action'] = '
                                 <div>
                                 <td>
-                                    <a class="btn btn-sm btn-clean btn-icon" onclick="event.preventDefault();viewInfo('.$r->id.');" title="View Client" href="javascript:void(0)">
-                                        <i class="icon-1x text-dark-50 flaticon-eye"></i>
-                                    </a>
+                                  
                                     <a title="Edit Client" class="btn btn-sm btn-clean btn-icon"
                                        href="'.$edit_url.'">
                                        <i class="icon-1x text-dark-50 flaticon-edit"></i>
@@ -106,16 +98,20 @@ class RoomController extends Controller
       
     }
 
-    public function RoomDetail(Request $request){
-        $room = Room::findOrFail($request->id);
+    // public function getPage(Request $request){
+    //     $sections = Section::findOrFail($request->id);
 		
 		
-		return view('admin.rooms.detail', ['title' => 'Room Detail', 'room' => $room]);
-    }
+	// 	return view('admin.sections.detail', ['title' => 'Page Detail', 'sections' => $sections]);
+    // }
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function create()
     {
-        $title = 'Add New Room';
-        return view('admin.rooms.create',compact('title'));
+        //
     }
 
     /**
@@ -125,20 +121,8 @@ class RoomController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    { 
-        $this->validate($request, [
-        'title' => 'required|max:255',
-        'price' => 'required|integer',
-       
-    ]);
-    $room = Room::create([
-        'title' => $request->title,
-        'price' => $request->price,
-    ]);
-    Session::flash('success_message', 'Great! Room has been saved successfully!');
-  
-    return redirect()->route('rooms.index');
-       
+    {
+        //
     }
 
     /**
@@ -160,9 +144,7 @@ class RoomController extends Controller
      */
     public function edit($id)
     {
-        $room = Room::find($id);
-        $title = 'Edit  Room';
-        return view('admin.rooms.edit',compact('title','room'));
+        //
     }
 
     /**
@@ -174,21 +156,9 @@ class RoomController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [ 
-            'title' => 'required|max:255',
-            'price' => 'required|integer',
-           
-        ]);
-        $room = Room::where('id', $id)->update([
-            'title' => $request->title,
-            'price' => $request->price,
-        ]);
-        Session::flash('success_message', 'Great! Room has been updated successfully!');
-      
-        return redirect()->route('rooms.index');
-           
+        //
     }
-   
+
     /**
      * Remove the specified resource from storage.
      *
@@ -197,31 +167,6 @@ class RoomController extends Controller
      */
     public function destroy($id)
     {
-        $room = Room::find($id);
-	    if($room){
-		    $room->delete();
-		    Session::flash('success_message', 'Room successfully deleted!');
-	    }
-	    return redirect()->route('rooms.index');
+        //
     }
-    public function deleteSelectedRooms(Request $request)
-	{
-        
-		$input = $request->all();
-		$this->validate($request, [
-			'rooms' => 'required',
-		
-		]);
-		foreach ($input['rooms'] as $index => $id) {
-			
-			$rooms = Room::find($id);
-			if($rooms){
-				$rooms->delete();
-			}
-			
-		}
-		Session::flash('success_message', ' successfully deleted!');
-		return redirect()->back();
-		
-	}
 }

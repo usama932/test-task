@@ -12,7 +12,10 @@ use App\Http\Controllers\Admin\CleaningController;
 use App\Http\Controllers\Admin\PaymentHistoryController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\OrderExtraController;
+use App\Http\Controllers\Admin\PagesController;
+use App\Http\Controllers\Admin\SectionController;
 use App\Http\Controllers\HomeController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -27,6 +30,7 @@ Route::get('/', 'HomeController@index')->name('home');
 Route::resource('check_orders','HomeController')->except('index');
 Route::post('/discount/submit', 'HomeController@applydiscount')->name('discount.submit');
 
+Route::get('/about-us', 'HomeController@getaboutus')->name('aboutus');
 
 Route::get('/login', function () {
     return view('auth.login');
@@ -136,5 +140,14 @@ Route::group([
     Route::post('get-order', 'OrderController@getorder')->name('admin.getorder');
     Route::get('order/delete/{id}', 'OrderController@destroy');
     Route::post('delete-selected-order', 'OrderController@deleteSelectedorders')->name('admin.delete-selected-orders');
+    //
+    Route::resource('pages','PagesController');
+    Route::resource('sections','SectionController');
+    Route::post('get-pages', 'PagesController@getPages')->name('admin.getPages');
+	Route::post('get-page', 'PagesController@getPage')->name('admin.getPage');
+	Route::get('page/delete/{id}', 'PagesController@destroy');
+	Route::post('delete-selected-page', 'PagesController@deleteSelectedPages')->name('admin.delete-selected-page');
+
+    
 });
 
