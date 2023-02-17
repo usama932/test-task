@@ -26,15 +26,15 @@
                     </div>
                     <div class="col section-top-blocks">
                         <i aria-hidden="true" class="fab fa-cc-visa"></i>
-                        <h6>PAY SECURE ONLINE</h6>
+                        <h6>PAY SECURELY ONLINE</h6>
                     </div>
                     <div class="col section-top-blocks">
                         <i aria-hidden="true" class="fas fa-clipboard-check"></i>
-                        <h6>NO CONTRACTS CANCEL ANYTIME</h6>
+                        <h6>NO CONTRACTS. CANCEL ANYTIME</h6>
                     </div>
                     <div class="col section-top-blocks">
                         <i aria-hidden="true" class="far fa-comments"></i>
-                        <h6>NO UPSELLS OR HIDDEN PRICING</h6>
+                        <h6>YOU ARE 60 SECOND AWAY FROM XTREMLY CLEAN HOME!</h6>
                     </div>
                 </div>
             </div>
@@ -47,7 +47,7 @@
             <div class="row mb-5">
                 <div class="col-md-12 text-center">
                     <h3 class="text-uppercase mb-3">Complete your booking</h3>
-                    <h6 class="text-uppercase">Great! Few details and we can complete your booking</h6>
+                    <h6 class="text-uppercase">Provide us with few details about you & your home!</h6>
                 </div>
             </div>
 
@@ -71,13 +71,13 @@
                             id="payment-form">
                             @csrf
 
-                            <fieldset class="text-center">
+                            {{-- <fieldset class="text-center">
                                 <h2>
                                     GET YOUR HOME SANITIZED AND YOUR GROCERIES DELIVERED! <br> <br>
                                     Complete your booking.
                                 </h2>
                                 <h6 class="mt-3 mb-0">Great! Few details and we can complete your booking.</h6>>
-                            </fieldset>
+                            </fieldset> --}}
 
                             <fieldset>
                                 <h5 class="booking-form-heading">STEP 1: WHO YOU ARE</h5>
@@ -263,12 +263,12 @@
                                 </div> 
                             </fieldset>
 
-                            <fieldset>
+                            {{-- <fieldset>
                                 <h5 class="booking-form-heading">Have you been in contact with anyone that has tested positive for COVID-19 in the last 30 days?</h5>
                                 <div class="row mt-4">
-                                    {{-- <div class="col-md-12 mb-4">
+                                    <div class="col-md-12 mb-4">
                                         <input class="form-control" placeholder="" type="text" >
-                                    </div> --}}
+                                    </div>
                                     <div class="col-md-12 mb-3">
                                         <p>Do you agree to inform xtreme cleanings immediately in the event that you or anyone in your household experiences symptoms related to COVID-19, or comes into contact with someone who tests positive for COVID-19 at any point prior to your appointment?</p>
                                     </div>
@@ -297,7 +297,7 @@
                                     </div>
 
                                 </div> 
-                            </fieldset>
+                            </fieldset> --}}
 
                             <fieldset>
                                 <h5 class="booking-form-heading">Discount code</h5>
@@ -503,7 +503,7 @@
                 
                 var bill = sum === 0 ? '' : sum ;
                 
-                    document.querySelector('input[name="totalbill"]').value = bill ?? ''; 
+                    document.querySelector('input[name="totalbill"]').value = '$'+bill ?? ''; 
                     $('#result').html(bill);
                     var bedroom = $('#room_id option:selected').data('title') || 'Not Selected';
                      $('#bedroom').html(bedroom);
@@ -512,7 +512,7 @@
                     $('#extra_service').html(service);
                     })
                     var date = $("#dates").val() || 'Choose Serivce Date';
-                    $('#select_date').html( date);
+                    $('#select_date').html(date);
                  
             }
             validate();
@@ -592,7 +592,7 @@
             $("#submitdiscount").on("click", function(e) {
                 e.preventDefault();
                 var coupen = $("#discount").val();
-                var totalbill = $("#totalbill").val();
+                var totalbill = $("#result").val();
                 
                 $.ajax({
                     headers: {

@@ -56,6 +56,7 @@ class HomeController extends Controller
     public function store(Request $request)
     {
     //    dd($request->all());
+
         $validator = Validator::make($request->all(), [
                     'first_name' => 'required|max:255',
                     'last_name' => 'required|max:255',
@@ -68,15 +69,22 @@ class HomeController extends Controller
                     'totalbill' => 'required',
                 
                     ]);
-        if ($validator->fails()) {
-         
-            session()->set('warning','Something went Wrong');  
+                    
+        if(!empty($request->totalbill)){
+            $totalbill =   explode(',', $request->totalbill);
+                
         }
-        else{
+                      
+        if ($validator->fails())
+            {
+                session()->set('warning','Something went Wrong');  
+            }
+        else
+            {
             $discount = 0 ;
             if(!empty($request->discount))
             {
-                $coupen = Discount::where('coupen',$request->discount)->where('redeem','free')->first();
+                $coupen = Discount::where('coupen',$request->discount)->first();
                 if(empty($coupen)){
         
                     $discount = 0 ;   
@@ -86,6 +94,14 @@ class HomeController extends Controller
                     $discount = $coupen->amount;    
                 }      
             }
+            Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+            $stripe = Stripe\Charge::create([
+                "amount" => $request->totalbill * 100,
+                "currency" => "usd",
+                "source" => $request->stripeToken,
+                "description" => "Test payment from itsolutionstuff.com." 
+            ]);
+
             $order  = Order::create([
                 'first_name' =>  $request->first_name, 
                 'last_name'          =>  $request->last_name,
@@ -93,18 +109,18 @@ class HomeController extends Controller
                 'phone_number'       =>  $request->phone_number,
                 'address'            =>  $request->address,
                 'zipcode'            =>  $request->zipcode,
-                'apt_suite_number'   => $request->apt_suite_number,
+                'apt_suite_number'   =>  $request->apt_suite_number,
                 'city'               =>  $request->city,
                 'state'              =>  $request->state,
                 'room_id'            =>  $request->room_id,
-                'date'               => date('Y-m-d' , strtotime($request->date)),
+                'date'               =>  date('Y-m-d' , strtotime($request->date)),
                 'bathroom_id'        =>  $request->bathroom_id,
                 'discount_id'        =>  $discount,
                 'time_slot_id'       =>  $request->time_slot_id,
-                'total_bill'          =>  $request->totalbill,
-                'contact_with_covid_person' =>  $request->date,
+                'total_bill'         =>  $request->totalbill,
     
             ]);
+
             if(!empty($request->services)){
                 $services = $request->services;
                     foreach ($services as $key => $service){ 
@@ -114,6 +130,7 @@ class HomeController extends Controller
                         ]);
                     }
             }
+
             if(!empty($request->cleaning_types)){
                 $cleaning_types = $request->cleaning_types;
                     foreach ($cleaning_types as $key => $cleaning_type){ 
@@ -123,20 +140,14 @@ class HomeController extends Controller
                         ]);
                     }
             }
+
             if(!empty($order->id) && !empty($strip->id) ){
                 PaymentHistory::create([
                     'payment_id'    => $strip->id,
                     'order_id'      => $request->order_id
                 ]);
             }
-            Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
-            $stripe = Stripe\Charge::create([
-                "amount" => $request->totalbill * 100,
-                "currency" => "usd",
-                "source" => $request->stripeToken,
-                "description" => "Test payment from itsolutionstuff.com." 
-        ]);
-    
+         
             session()->set('success','Booked Successfully');  
             return redirect()->with('message')->back()->with('message','Cogratulation..! Booking Successfully');
         }
