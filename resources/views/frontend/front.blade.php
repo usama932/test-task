@@ -52,15 +52,13 @@
             </div>
 
             <div class="row">
-                @if($errors->any())
-                    {{ implode('', $errors->all('<div>:message</div>')) }}
-                @endif
-                @if(session()->has('message'))
+              
+                @if(session()->has('success'))
                     <div class="alert alert-success">
-                        {{ session()->get('message') }}
+                        {{ session()->get('success') }}
                     </div>
                 @endif
-                @include('admin.partials._messages')
+             
                 <div class="col-md-12 col-lg-8">
                     <div class="booking-panel shadow-border">
 

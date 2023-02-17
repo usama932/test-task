@@ -71,13 +71,14 @@ class HomeController extends Controller
                     ]);
                     
         if(!empty($request->totalbill)){
-            $totalbill =   explode(',', $request->totalbill);
-                
+            $totalbills =   explode('$', $request->totalbill);
+           
+           
         }
                       
         if ($validator->fails())
             {
-                session()->set('warning','Something went Wrong');  
+                return redirect()->back()->with('success','Something Wrong in Your Dis% Coupen');
             }
         else
             {
@@ -96,7 +97,7 @@ class HomeController extends Controller
             }
             Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
             $stripe = Stripe\Charge::create([
-                "amount" => $request->totalbill * 100,
+                "amount" => $totalbills[1] * 100,
                 "currency" => "usd",
                 "source" => $request->stripeToken,
                 "description" => "Test payment from itsolutionstuff.com." 
@@ -117,7 +118,7 @@ class HomeController extends Controller
                 'bathroom_id'        =>  $request->bathroom_id,
                 'discount_id'        =>  $discount,
                 'time_slot_id'       =>  $request->time_slot_id,
-                'total_bill'         =>  $request->totalbill,
+                'total_bill'         =>  $totalbills[1],
     
             ]);
 
@@ -147,9 +148,8 @@ class HomeController extends Controller
                     'order_id'      => $request->order_id
                 ]);
             }
-         
-            session()->set('success','Booked Successfully');  
-            return redirect()->with('message')->back()->with('message','Cogratulation..! Booking Successfully');
+            
+            return redirect()->back()->with('success','Cogratulation..! Booking Successfully');
         }
        
     }
