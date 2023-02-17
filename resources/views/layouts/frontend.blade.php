@@ -85,7 +85,7 @@
                     <div class="col-md-4">
                         <ul class="top-nav-menu d-flex">
                             <li class="top-nav-menu-item">
-                                <a href="#" class="top-nav-menu-item-link">
+                                <a href="{{url('/login')}}" class="top-nav-menu-item-link">
                                     <span>LOGIN</span>
                                 </a>
                             </li>
@@ -135,7 +135,7 @@
                             <div class="col collapse navbar-collapse" id="navbarSupportedContent">
                                 <ul class="navbar-nav ">
                                     <li class="nav-item">
-                                        <a class="nav-link" href="#" class="">Login</a>
+                                        <a class="nav-link" href="{{url('/login')}}" class="">Login</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" href="#" class="">Help</a>
