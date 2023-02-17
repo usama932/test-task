@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Mail;
 
 class Order extends Model
 {
@@ -36,5 +37,10 @@ class Order extends Model
     public function cleaningtype()
     {
         return $this->hasMany(OrderCleanType::class,'order_id','id');
+    }
+    public function sendOrderConfirmationMail($order)
+    {
+        Mail::to('usama1517a@gmail.com')->send(new OrderMail($order));
+        $this->sendOrderConfirmationMail($order);
     }
 }

@@ -1,0 +1,17 @@
+
+<!DOCTYPE html>
+<html lang=\"en\">
+<head>
+    <meta charset=\"UTF-8\">
+    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
+    <meta http-equiv=\"X-UA-Compatible\" content=\"ie=edge\">
+    <title>Order Confirmation</title>
+</head>
+<body>
+    <p>Hi auth()->user()->name</p>
+    <p>Your recieved one order check admin panel.</p>
+    <br/>
+
+     
+</body>
+</html>
