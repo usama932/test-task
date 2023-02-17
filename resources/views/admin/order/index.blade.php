@@ -1,5 +1,5 @@
 @extends('admin.layouts.master')
-@section('title',  'Pages')
+@section('title', $title)
 @section('content')
     <!--begin::Card-->
     <div class="card card-custom">
