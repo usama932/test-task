@@ -20,6 +20,7 @@ use Stripe;
 use App\Models\OrderCleanType;
 use Response;
 use Illuminate\Support\Facades\Validator;
+use Mail;
 
 
 class HomeController extends Controller
@@ -96,13 +97,13 @@ class HomeController extends Controller
                     $discount = $coupen->amount;    
                 }      
             }
-            Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
-            $stripe = Stripe\Charge::create([
-                "amount" => $totalbills[1] * 100,
-                "currency" => "usd",
-                "source" => $request->stripeToken,
-                "description" => "Test payment from itsolutionstuff.com." 
-            ]);
+            // Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+            // $stripe = Stripe\Charge::create([
+            //     "amount" => $totalbills[1] * 100,
+            //     "currency" => "usd",
+            //     "source" => $request->stripeToken,
+            //     "description" => "Test payment from itsolutionstuff.com." 
+            // ]);
 
             $order  = Order::create([
                 'first_name' =>  $request->first_name, 
@@ -143,13 +144,20 @@ class HomeController extends Controller
                     }
             }
 
-            if(!empty($order->id) && !empty($strip->id) ){
-                PaymentHistory::create([
-                    'payment_id'    => $strip->id,
-                    'order_id'      => $request->order_id
-                ]);
-            }
-            
+            // if(!empty($order->id) && !empty($strip->id) ){
+            //     PaymentHistory::create([
+            //         'payment_id'    => $strip->id,
+            //         'order_id'      => $request->order_id
+            //     ]);
+            // }
+            $to_name = 'Admin';
+            $to_email = 'usama1517a@gmail.com';
+            $data = array('name'=>"Admin", "body" => "A test mail");
+            Mail::send('mails.order-mail', $data, function($message) use ($to_name, $to_email) {
+            $message->to($to_email, $to_name)
+            ->subject('Laravel Test Mail');
+            $message->from('xtremebooking@webexert.us','Test Mail');
+            });
             return redirect()->back()->with('success','Cogratulation..! Booking Successfully');
         }
        
