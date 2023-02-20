@@ -53,6 +53,7 @@
 							</div>
 							<!--begin::Title-->
 							<!--begin::Form group-->
+							{{url()->previous()}}
 							<div class="form-group">
 
 								<label class="font-size-h6 font-weight-bolder text-dark">Email</label>
