@@ -40,7 +40,7 @@ class LoginController extends Controller
     }
     public function login(Request $request)
     {
-        dd($request->all());
+       
         $input = $request->all();
 
         $this->validate($request, [
@@ -52,6 +52,9 @@ class LoginController extends Controller
         if(auth()->attempt(array('email' => $input['email'], 'password' => $input['password'])))
         {
             if (auth()->user()->is_admin == 1) {
+                if($request->order == '1'){
+                    return $next($request);
+                }
                 return redirect()->route('admin.dashboard');
             }else{
                 return redirect()->route('client.dashboard');
