@@ -40,7 +40,7 @@
 						<form class="form" action="{{ route('login') }}" method="post" novalidate="novalidate" >
 
 							@csrf
-							<input type="hidden" name="order" value="1">
+
 							<!--begin::Title-->
 							<div class="pb-13 pt-lg-0 pt-5">
 								<h3 class="font-weight-bolder text-dark font-size-h4 font-size-h1-lg">
