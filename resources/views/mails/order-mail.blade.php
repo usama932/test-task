@@ -45,7 +45,7 @@ For what reason would it be advisable for me to think about business content? Th
 <table border="0" cellpadding="0" cellspacing="0" width="100%">
     @php 
         use App\Models\Order;
-        $order = Order::->latest()->first();
+        $order = Order::latest()->first();
     @endphp
     <tr>
         <td align="center" style="background-color: #eeeeee;" bgcolor="#eeeeee">
