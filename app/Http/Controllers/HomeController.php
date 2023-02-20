@@ -144,10 +144,10 @@ class HomeController extends Controller
                     }
             }
 
-            if(!empty($order->id) && !empty($strip->id) ){
+            if(!empty($order) && !empty($strip) ){
                 PaymentHistory::create([
                     'payment_id'    => $strip->id,
-                    'order_id'      => $request->order_id
+                    'order_id'      => $order->id
                 ]);
             }
             $setting = Setting::where('name','email')->first();
