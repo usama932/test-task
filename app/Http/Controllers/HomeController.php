@@ -156,8 +156,8 @@ class HomeController extends Controller
             $data = array('name'=>"Admin", "body" => "A test mail");
             Mail::send('mails.order-mail', $data, function($message) use ($to_name, $to_email) {
             $message->to($to_email, $to_name)
-            ->subject('Laravel Test Mail');
-            $message->from('xtremebooking@webexert.us','Test Mail');
+            ->subject('Received Booking From Xtreme Booking');
+            $message->from('xtremebooking@webexert.us','Received Booking...');
             });
             return redirect()->back()->with('success','Cogratulation..! Booking Successfully');
         }
