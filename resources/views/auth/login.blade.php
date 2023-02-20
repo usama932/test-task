@@ -40,7 +40,8 @@
 						<form class="form" action="{{ route('login') }}" method="post" novalidate="novalidate" >
 
 							@csrf
-							@if(url()->previous() == 'https://bookapp.webexert.us/admin/orders')
+							
+							@if(strpos(url()->previous() , "admin/order/detail/") !== false)
 								<input type="hidden" name="order" value="1">
 							@else
 								<input type="hidden" name="order" value="0">
