@@ -53,7 +53,7 @@ class LoginController extends Controller
         {
             if (auth()->user()->is_admin == 1) {
                 if($request->order == '1'){
-                   return redirect()->route('orders,index');
+                   return redirect()->route('orders.index');
                 }
                 return redirect()->route('admin.dashboard');
             }else{
