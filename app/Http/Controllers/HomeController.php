@@ -97,13 +97,13 @@ class HomeController extends Controller
                     $discount = $coupen->amount;    
                 }      
             }
-            // Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
-            // $stripe = Stripe\Charge::create([
-            //     "amount" => $totalbills[1] * 100,
-            //     "currency" => "usd",
-            //     "source" => $request->stripeToken,
-            //     "description" => "Test payment from itsolutionstuff.com." 
-            // ]);
+            Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+            $stripe = Stripe\Charge::create([
+                "amount" => $totalbills[1] * 100,
+                "currency" => "usd",
+                "source" => $request->stripeToken,
+                "description" => "Test payment from itsolutionstuff.com." 
+            ]);
 
             $order  = Order::create([
                 'first_name' =>  $request->first_name, 
@@ -144,12 +144,12 @@ class HomeController extends Controller
                     }
             }
 
-            // if(!empty($order->id) && !empty($strip->id) ){
-            //     PaymentHistory::create([
-            //         'payment_id'    => $strip->id,
-            //         'order_id'      => $request->order_id
-            //     ]);
-            // }
+            if(!empty($order->id) && !empty($strip->id) ){
+                PaymentHistory::create([
+                    'payment_id'    => $strip->id,
+                    'order_id'      => $request->order_id
+                ]);
+            }
             $to_name = 'Admin';
             $to_email = 'usama1517a@gmail.com';
             $data = array('name'=>"Admin", "body" => "A test mail");
