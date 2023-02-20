@@ -55,7 +55,11 @@ class LoginController extends Controller
             if (auth()->user()->is_admin == 1) {
                 if($request->order == '1'){
                     $order = Order::with('room','bathroom','discount','time_slot','extraorder','cleaningtype')->latest()->first();
-                   return redirect()->route('order.detail',$order->id);
+                    if(!empty($order)){
+                        return redirect()->route('order.detail',$order->id);
+                    }
+                    return redirect()->route('orders.index');
+                   
                 }
                 return redirect()->route('admin.dashboard');
             }else{
