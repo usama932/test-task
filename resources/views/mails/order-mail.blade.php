@@ -167,7 +167,7 @@ For what reason would it be advisable for me to think about business content? Th
                             <table border="0" cellspacing="0" cellpadding="0">
                                 <tr>
                                     <td align="center" style="border-radius: 5px;" bgcolor="#66b3b7">
-                                      <a href="{{url('admin/orders')}}" target="_blank" style="font-size: 18px; font-family: Open Sans, Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; border-radius: 5px; background-color: #F44336; padding: 15px 30px; border: 1px solid #F44336; display: block;">Check Order</a>
+                                      <a href="{{url('admin/order/detail',$order->id)}}" target="_blank" style="font-size: 18px; font-family: Open Sans, Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; border-radius: 5px; background-color: #F44336; padding: 15px 30px; border: 1px solid #F44336; display: block;">Check Order</a>
                                     </td>
                                 </tr>
                             </table>

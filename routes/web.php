@@ -139,6 +139,7 @@ Route::group([
     Route::post('get-orders', 'OrderController@getorders')->name('admin.getorders');
     Route::post('get-order', 'OrderController@getorder')->name('admin.getorder');
     Route::get('order/delete/{id}', 'OrderController@destroy');
+    Route::get('order/detail/{id}', 'OrderController@order_detail')->name("order.detail");
     Route::post('delete-selected-order', 'OrderController@deleteSelectedorders')->name('admin.delete-selected-orders');
     //
     Route::resource('pages','PagesController');
