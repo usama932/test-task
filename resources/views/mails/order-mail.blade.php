@@ -85,7 +85,7 @@ For what reason would it be advisable for me to think about business content? Th
                                         Customer Name
                                     </td>
                                     <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 5px 10px;">
-                                         {{$order->first_name}}&nbsp {{$order->last_name}}
+                                         {{$order->first_name}} {{$order->last_name}}
                                     </td>
                                 </tr>
                                 <tr>
@@ -93,7 +93,7 @@ For what reason would it be advisable for me to think about business content? Th
                                         Phone #
                                     </td>
                                     <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 5px 10px;">
-                                         (($order->phone_number))
+                                         {{$order->phone_number}} 
                                     </td>
                                 </tr>
                                 <tr>
