@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use App\Models\Order;
 
 class LoginController extends Controller
 {
@@ -53,7 +54,8 @@ class LoginController extends Controller
         {
             if (auth()->user()->is_admin == 1) {
                 if($request->order == '1'){
-                   return redirect()->route('order.detail');
+                    $order = Order::with('room','bathroom','discount','time_slot','extraorder','cleaningtype')->latest()->first();
+                   return redirect()->route('order.detail',$order->id);
                 }
                 return redirect()->route('admin.dashboard');
             }else{
