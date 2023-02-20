@@ -192,7 +192,7 @@ class OrderController extends Controller
 		
 	}
     public function order_detail($id){
-        $order = Order::where('id',$request->id)->with('room','bathroom','discount','time_slot','extraorder','cleaningtype')->first();
+        $order = Order::where('id',$id)->with('room','bathroom','discount','time_slot','extraorder','cleaningtype')->first();
 	
 		return view('admin.order.order_detail', ['title' => 'Order Detail', 'order' => $order]);
     }
