@@ -125,6 +125,14 @@ class SettingController extends Controller
                 'place_holder'=>'Enter Copyright text',
                 'class'=>'form-control form-control-solid',
             ),
+            array(
+                'name'=>'email',
+                'id'=>'email',
+                'type'=>'email',
+                'label'=>'Email',
+                'place_holder'=>'Enter Booking Receiving Email',
+                'class'=>'form-control form-control-solid',
+            ),
             // array(
             //     'name'=>'test_secret_key',
             //     'id'=>'test_secret_key',

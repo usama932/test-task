@@ -74,7 +74,14 @@
 														</div>
 													</div>
 												@endif
-										
+												@if($column['type']=="email")
+													<div class="form-group row">
+														<label class="col-3">{{$column['label']}}</label>
+														<div class="col-9">
+															<input class="{{$column['class']}}" type="text" name="{{$column['name']}}" placeholder="{{$column['place_holder']}}" value="{{ isset($settings[$column['name']]) ? $settings[$column['name']] : ''}}" >
+														</div>
+													</div>
+												@endif
 												@if($column['type']=="hidden")
 													<input type="hidden" name="{{$column['name']}}" value="{{ isset
 														($settings[$column['name']]) ? $settings[$column['name']]: ''}}">
@@ -116,6 +123,7 @@
 														</div>
 													</div>
 												@endif
+
 												@if($column['type']=="checkbox")
 													<div class="form-group row">
 														<label class="col-3 col-form-label">{{$column['label']}}</label>

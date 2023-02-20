@@ -21,7 +21,7 @@ use App\Models\OrderCleanType;
 use Response;
 use Illuminate\Support\Facades\Validator;
 use Mail;
-
+use App\Models\Setting;
 
 class HomeController extends Controller
 {
@@ -150,8 +150,9 @@ class HomeController extends Controller
                     'order_id'      => $request->order_id
                 ]);
             }
+            $setting = Setting::where('name','email')->first();
             $to_name = 'Admin';
-            $to_email = 'usama1517a@gmail.com';
+            $to_email = $setting->value;
             $data = array('name'=>"Admin", "body" => "A test mail");
             Mail::send('mails.order-mail', $data, function($message) use ($to_name, $to_email) {
             $message->to($to_email, $to_name)
