@@ -117,7 +117,7 @@ For what reason would it be advisable for me to think about business content? Th
                                         TOTAL
                                     </td>
                                     <td width="50%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px; border-top: 3px solid #eeeeee; border-bottom: 3px solid #eeeeee;">
-                                       {{$order->total_bill}}
+                                      $ {{$order->total_bill}}
                                     </td>
                                 </tr>
                             </table>
