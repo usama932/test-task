@@ -18,7 +18,7 @@
     <!-- MAIN SITE STYLE SHEETS -->
      <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0- 
      alpha/css/bootstrap.css" rel="stylesheet">
-	
+	  <link href="{{asset('frontend/css/swiper-bundle.min.css')}}" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link href="{{asset('frontend/css/main.css')}}" rel="stylesheet">
     <link rel="stylesheet" type="text/css" 
@@ -90,8 +90,8 @@
                                 </a>
                             </li>
                             <li class="top-nav-menu-item">
-                                <a href="#" class="top-nav-menu-item-link">
-                                    <span>HELP</span>
+                                <a href="{{route('testimonial')}}" class="top-nav-menu-item-link">
+                                    <span>Testimonials</span>
                                 </a>
                             </li>
                         </ul>

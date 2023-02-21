@@ -31,7 +31,7 @@ Route::resource('check_orders','HomeController')->except('index');
 Route::post('/discount/submit', 'HomeController@applydiscount')->name('discount.submit');
 
 Route::get('/about-us', 'HomeController@getaboutus')->name('aboutus');
-
+Route::get('/testionial', 'HomeController@gettestimonial')->name('testimonial');
 Route::get('/login', function () {
     return view('auth.login');
 });

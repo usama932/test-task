@@ -249,4 +249,8 @@ class HomeController extends Controller
         
         return view('frontend.about',compact('section'));
     }
+    public function gettestimonial()
+    {
+        return view('frontend.testimonials');
+    }
 }
