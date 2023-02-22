@@ -144,9 +144,9 @@ class HomeController extends Controller
                     }
             }
 
-            if(!empty($order) && !empty($strip) ){
+            if(!empty($order) && !empty($stripe) ){
                 PaymentHistory::create([
-                    'payment_id'    => $strip->id,
+                    'payment_id'    => $stripe->id,
                     'order_id'      => $order->id
                 ]);
             }
