@@ -157,7 +157,7 @@ class HomeController extends Controller
             Mail::send('mails.order-mail', $data, function($message) use ($to_name, $to_email) {
             $message->to($to_email, $to_name)
             ->subject('Received Booking From Xtreme Booking');
-            $message->from('xtremebooking@webexert.us','XTREME BOOKING');
+            $message->from('xtremebooking@xtremecleanings.online','XTREME BOOKING');
             });
             return redirect()->back()->with('success','Cogratulation..! Booking Successfully');
         }
