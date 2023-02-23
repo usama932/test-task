@@ -138,13 +138,13 @@
                                         <a class="nav-link" href="{{url('/login')}}" class="">Login</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="#" class="">Help</a>
+                                        <a class="nav-link" href="{{route('testimonial')}}" class="">Testimonials</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="#" class="">Gift Cards</a>
+                                        <a class="nav-link" href="{{route('aboutus')}}" class="">About Us</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="#" class="">BOOK IN 60 SECONDS</a>
+                                        <a class="nav-link" href="{{url('/'.'#payment-form'  )}}" class="">BOOK IN 60 SECONDS</a>
                                     </li>
                                 </ul>
                             </div>
